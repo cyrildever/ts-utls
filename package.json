@@ -1,0 +1,37 @@
+{
+  "name": "ts-string-utils",
+  "description": "String utilities library for TypeScript",
+  "version": "0.1.0",
+  "main": "dist/lib/src/typescript/index.js",
+  "types": "dist/lib/src/typescript/index.d.ts",
+  "scripts": {
+    "compile": "eslint lib --ext .ts && tsc ",
+    "fix": "eslint lib --ext .ts --fix",
+    "test": "tsc && browserify $(find ./dist/test/typescript -type f -name \"*.js\") -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript",
+    "fix-test": "eslint test --ext .ts --fix",
+    "single-test-on-windows-to-adapt": "tsc && browserify dist/test/typescript/index.spec.js -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript"
+  },
+  "license": "MIT",
+  "author": "Cyril Dever <cdever@edgewhere>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyrildever/ts-string-utils.git"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.13.12",
+    "@typescript-eslint/eslint-plugin": "~2.30.0",
+    "@typescript-eslint/parser": "~2.30.0",
+    "browserify": "^16.5.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-immutable": "~1.0.0",
+    "eslint-plugin-import": "~2.20.2",
+    "eslint-plugin-no-loops": "~0.3.0",
+    "live-server": "^1.2.1",
+    "mocha": "^6.2.3",
+    "typescript": "~3.8.3"
+  }
+}
