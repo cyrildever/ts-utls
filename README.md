@@ -10,5 +10,12 @@ const h = hashCode('Hello');
 console.assert(h === 69609650);
 ```
 
+
+### License
+
+This library is distributed under an MIT license.
+See the [LICENSE](LICENSE) file.
+
+
 <hr />
 &copy; 2020 Cyril Dever.All rights reserved.
