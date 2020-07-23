@@ -9,7 +9,7 @@
     "fix": "eslint lib --ext .ts --fix",
     "test": "tsc && browserify $(find ./dist/test/typescript -type f -name \"*.js\") -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript",
     "fix-test": "eslint test --ext .ts --fix",
-    "single-test-on-windows-to-adapt": "tsc && browserify dist/test/typescript/index.spec.js -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript"
+    "test-on-windows": "tsc && browserify dist/test/typescript/index.spec.js -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript"
   },
   "license": "MIT",
   "author": "Cyril Dever <cdever@edgewhere>",

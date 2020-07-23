@@ -1,5 +1,14 @@
-import { hashCode, splitCamelCaseWords } from '../../lib/src/typescript/index'
+import { capitalize, hashCode, splitCamelCaseWords } from '../../lib/src/typescript/index'
 
+describe('capitalize', () => {
+  it('should put the first letter in upper case if any', () => {
+    const expected = 'My capitalized sentence'
+    const found = capitalize('my capitalized sentence')
+    found.should.equal(expected)
+
+    ''.should.equal(capitalize(''))
+  })
+})
 describe('hashCode', () => {
   it('should be deterministic', () => {
     const data = 'my string to hash'

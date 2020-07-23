@@ -23,6 +23,15 @@ SOFTWARE.
 */
 
 /**
+ * Put the first letter of a sentence in upper case
+ * 
+ * @param s - The sentence to capitalize
+ * @returns the capitalized string
+ */
+export const capitalize = (s: string): string =>
+  s.length > 0 ? s.replace(/^./, s[0].toUpperCase()) : s
+
+/**
  * Compute the equivalent of Java's hashCode for the passed string
  * 
  * @param s - The string to use
