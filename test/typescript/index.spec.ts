@@ -1,4 +1,4 @@
-import { hashCode } from '../../lib/src/typescript/index'
+import { hashCode, splitCamelCaseWords } from '../../lib/src/typescript/index'
 
 describe('hashCode', () => {
   it('should be deterministic', () => {
@@ -15,5 +15,12 @@ describe('hashCode', () => {
 
     const empty = hashCode('')
     empty.should.equal(0)
+  })
+})
+describe('spliCamelCaseWords', () => {
+  it('should separate words in a camel case string', () => {
+    const expected = 'My Camel Case Word'
+    const found = splitCamelCaseWords('MyCamelCaseWord')
+    found.should.equal(expected)
   })
 })

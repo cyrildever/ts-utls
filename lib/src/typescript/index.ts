@@ -30,3 +30,12 @@ SOFTWARE.
  */
 export const hashCode = (s: string): number =>
   Array.from(s).reduce((h: number, c: string) => Math.imul(31, h) + c.charCodeAt(0) | 0, 0)
+
+/**
+ * Split a camel case string into a sequence of words, eg. MyCamelCaseWord => My Camel Case Word
+ * 
+ * @param s - The camel case string to use
+ * @returns the sentence
+ */
+export const splitCamelCaseWords = (s: string): string =>
+  s.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
