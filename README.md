@@ -1,16 +1,28 @@
-# ts-string-utils
+# ts-utils
 
-### String utilities in TypeScript
+### Utilities for TypeScript
 
 Some functions I found useful, to borrow at your discretion:
-* `capitalize`: capitalize the first letter of a sentence;
-* `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
-* `hashCode`: computes the equivalent of Java's hashCode;
-* `splitCamelCaseWords`: put a space between each "word" found in a camel-case string.
+* For arrays:
+  * `flatten`: transform an array of arrays of items to an array of items;
+* For strings:
+  * `capitalize`: capitalize the first letter of a sentence;
+  * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
+  * `hashCode`: computes the equivalent of Java's hashCode;
+  * `splitCamelCaseWords`: put a space between each "word" found in a camel-case string.
 
 eg.
 ```typescript
-import * from 'ts-string-utils'
+import { flatten, capitalize, hashCode, fromHex, toHex, splitCamelCaseWords } from 'ts-utils'
+
+// For arrays
+
+const arrs = [[1, 2], [3, 4], [5]]
+const flattened = flatten(arrs)
+// [1, 2, 3, 4, 5]
+console.log(flattened)
+
+// For strings
 
 const phrase = capitalize('my sentence is capitalized')
 console.assert(phrase === 'My sentence is capitalized')

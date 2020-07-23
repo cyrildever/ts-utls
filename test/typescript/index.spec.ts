@@ -1,6 +1,8 @@
 import {
-  capitalize, hashCode, splitCamelCaseWords, fromHex, toHex
+  capitalize, flatten, hashCode, splitCamelCaseWords, fromHex, toHex
 } from '../../lib/src/typescript/index'
+
+declare function expect(val: any, message?: string): any
 
 describe('capitalize', () => {
   it('should put the first letter in upper case if any', () => {
@@ -9,6 +11,23 @@ describe('capitalize', () => {
     found.should.equal(expected)
 
     ''.should.equal(capitalize(''))
+  })
+})
+describe('flatten', () => {
+  it('should flatten an array of arrays correctly', () => {
+    const expected = [1, 2, 3, 4, 5]
+    const arrs = [[1, 2], [3, 4], [5]]
+    const found = flatten(arrs)
+    found.should.eqls(expected)
+  })
+  it('should infer types when possible', () => {
+    const arrs = [[1, 2], [3, 4], [5]]
+    const found1 = flatten<number>(arrs)
+    const found2 = flatten(arrs)
+    found1.should.eqls(found2)
+    expect(found2 instanceof Array).to.be.true
+    expect(typeof found2[0] === 'number').to.be.true
+    expect(typeof found1 === typeof found2).to.be.true
   })
 })
 describe('hashCode', () => {
