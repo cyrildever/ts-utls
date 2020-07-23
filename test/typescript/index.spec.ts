@@ -1,4 +1,6 @@
-import { capitalize, hashCode, splitCamelCaseWords } from '../../lib/src/typescript/index'
+import {
+  capitalize, hashCode, splitCamelCaseWords, fromHex, toHex
+} from '../../lib/src/typescript/index'
 
 describe('capitalize', () => {
   it('should put the first letter in upper case if any', () => {
@@ -26,10 +28,34 @@ describe('hashCode', () => {
     empty.should.equal(0)
   })
 })
-describe('spliCamelCaseWords', () => {
+describe('splitCamelCaseWords', () => {
   it('should separate words in a camel case string', () => {
     const expected = 'My Camel Case Word'
     const found = splitCamelCaseWords('MyCamelCaseWord')
     found.should.equal(expected)
+  })
+})
+describe('Hex functions', () => {
+  describe('fromHex', () => {
+    it('should read an hexadecimal string', () => {
+      const expected = Buffer.from([255])
+      const ff = 'ff'
+      const found = fromHex(ff)
+      found.should.eqls(expected)
+    })
+  })
+  describe('toHex', () => {
+    it('should create the right hexadecimal string', () => {
+      const expected = 'ff'
+      const ff = Buffer.from([255])
+      const found = toHex(ff)
+      found.should.equal(expected)
+    })
+  })
+  it('should work back-and-forth', () => {
+    const hexStrings = ['ff']
+    const buffers = hexStrings.map(fromHex)
+    const strings = buffers.map(toHex)
+    strings.should.eqls(hexStrings)
   })
 })
