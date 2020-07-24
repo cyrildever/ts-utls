@@ -56,3 +56,19 @@ export const int2Buffer = (uint: number): Buffer => {
   view.setBigUint64(0, bigInt, true)
   return Buffer.from(view.buffer)
 }
+
+/**
+ * Transform the string representation of byte(s) to a byte array
+ * 
+ * @param {string} bits - The string representation of the octet(s) to transform, ie. one or more sequences of eight 0s or 1s
+ * @returns the `Buffer`
+ * @throws not the string representation of bytes
+ */
+export const stringBytes2Buffer = (bits: string): Buffer => {
+  if (bits.length % 8 !== 0 || !bits.match(/^[01]+$/g)) {
+    throw new Error('not the string representation of bytes')
+  }
+  const buf = Buffer.alloc(bits.length / 8)
+  buf.writeUInt8(parseInt(bits, 2), 0)
+  return buf
+}

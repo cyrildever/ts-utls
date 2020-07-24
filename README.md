@@ -9,6 +9,8 @@ Some functions I found useful, to borrow at your discretion:
   * `groupBy`: group an array of items by some item's field;
 * For numbers:
   * `euclideanDivision`: computes the euclidean division of two integers, returning the quotient and the remainder;
+  * `int2Buffer`: converts an integer to its byte array equivalent;
+  * `stringBytes2Buffer`: transforms a string representing one or more bytes to a byte array;
 * For strings:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
@@ -18,7 +20,7 @@ Some functions I found useful, to borrow at your discretion:
 eg.
 ```typescript
 import {
-  chunk, flatten, groupBy,
+  chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
   capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from 'ts-utils'
 
@@ -38,14 +40,18 @@ const arr = [{ field1: '1', field2: 1 }, { field1: '1', field2: 2 }, { field1: '
 const grouped = groupBy(arr, 'field1')
 console.assert(grouped['1'].length === 2)
 
-// For numbers
+// For numbers and bits
 
 const n = 15, d = 2
 const [q, r] = euclideanDivision(n, d)
 console.assert(q === 7 && r === 1)
 
-const buf = int2Buffer(1)
-console.assert(buf[0] === 1)
+const buf1 = int2Buffer(1)
+console.assert(buf1[0] === 1)
+
+const b = '11011010'
+const buf2 = stringBytes2Buffer(b)
+console.assert(buf1[0] === 218)
 
 // For strings
 

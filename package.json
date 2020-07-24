@@ -1,7 +1,7 @@
 {
   "name": "ts-utils",
   "description": "Utilities for TypeScript library",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {

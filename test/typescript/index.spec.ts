@@ -1,5 +1,5 @@
 import {
-  chunk, flatten, groupBy, euclideanDivision, int2Buffer,
+  chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
   capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from '../../lib/src/typescript/index'
 
@@ -102,6 +102,29 @@ describe('splitCamelCaseWords', () => {
     found.should.equal(expected)
   })
 })
+describe('stringBytes2Buffer', () => {
+  it('should transform a byte in string to a buffer', () => {
+    const byte = '11011010'
+    const expected = Buffer.from([218])
+    const found = stringBytes2Buffer(byte)
+    found.should.eqls(expected)
+  })
+  it('should throw an error when the string is not an octet', () => {
+    expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes')
+  })
+})
+describe('xor', () => {
+  it('should apply the XOR operation on two strings of the same length', () => {
+    const expected = '\u0003'
+    const s1 = 'a'
+    const s2 = 'b'
+    const found = xor(s1, s2)
+    found.should.equal(expected)
+  })
+  it('should throw an error when strings are not of the same length', () => {
+    expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size')
+  })
+})
 describe('Hex functions', () => {
   describe('fromHex', () => {
     it('should read an hexadecimal string', () => {
@@ -124,17 +147,5 @@ describe('Hex functions', () => {
     const buffers = hexStrings.map(fromHex)
     const strings = buffers.map(toHex)
     strings.should.eqls(hexStrings)
-  })
-})
-describe('xor', () => {
-  it('should apply the XOR operation on two strings of the same length', () => {
-    const expected = '\u0003'
-    const s1 = 'a'
-    const s2 = 'b'
-    const found = xor(s1, s2)
-    found.should.equal(expected)
-
-    const s3 = 'longer string' 
-    expect(() => xor(s1, s3)).to.throw('strings must be of the same size')
   })
 })
