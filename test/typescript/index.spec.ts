@@ -1,5 +1,5 @@
 import {
-  chunk, flatten, groupBy, euclideanDivision,
+  chunk, flatten, groupBy, euclideanDivision, int2Buffer,
   capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from '../../lib/src/typescript/index'
 
@@ -85,6 +85,14 @@ describe('hashCode', () => {
 
     const empty = hashCode('')
     empty.should.equal(0)
+  })
+})
+describe('int2Buffer', () => {
+  it('should return the appropriate buffer', () => {
+    const i = 180969
+    const expected = Buffer.from([233, 194, 2, 0, 0, 0, 0, 0])
+    const found = int2Buffer(i)
+    found.should.eqls(expected)
   })
 })
 describe('splitCamelCaseWords', () => {

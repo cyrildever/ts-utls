@@ -38,3 +38,21 @@ export const euclideanDivision = (numerator: number, denominator: number): [numb
   const remainder = numerator % denominator
   return [quotient, remainder]
 }
+
+/**
+ * Get the byte array from an unsigned integer
+ * 
+ * @param {number} uint - The unsigned integer to transform
+ * @returns the `Buffer`
+ * @throws invalid signed integer
+ */
+export const int2Buffer = (uint: number): Buffer => {
+  if (uint < 0) {
+    throw new Error('invalid signed integer')
+  }
+  const bigInt = BigInt(uint)
+  const buf = new ArrayBuffer(8)
+  const view = new DataView(buf)
+  view.setBigUint64(0, bigInt, true)
+  return Buffer.from(view.buffer)
+}

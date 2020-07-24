@@ -44,6 +44,9 @@ const n = 15, d = 2
 const [q, r] = euclideanDivision(n, d)
 console.assert(q === 7 && r === 1)
 
+const buf = int2Buffer(1)
+console.assert(buf[0] === 1)
+
 // For strings
 
 const phrase = capitalize('my sentence is capitalized')
