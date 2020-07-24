@@ -21,7 +21,12 @@
     "string",
     "array",
     "number",
-    "bits"
+    "bits",
+    "flatten",
+    "groupBy",
+    "hashCode",
+    "euclidean division",
+    "xor"
   ],
   "license": "MIT",
   "author": "Cyril Dever <cdever@edgewhere>",

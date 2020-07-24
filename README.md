@@ -1,21 +1,36 @@
 # ts-utls
 
-### Utilities for TypeScript (in the browser)
+![Github tag (latest by date)](https://img.shields.io/github/v/tag/cyrildever/ts-utls)
+![npm](https://img.shields.io/npm/dw/ts-utls)
+![Github last commit](https://img.shields.io/github/last-commit/cyrildever/ts-utls)
+![Github issues](https://img.shields.io/github/issues/cyrildever/ts-utls)
+![NPM](https://img.shields.io/npm/l/ts-utls)
 
-Some functions I found useful when using TypeScript for browser apps, to borrow at your discretion:
+ts-utls is a small TypeScript library where I put all useful stuff I regularly need in my projects.
+Feel free to use at your discretion.
+
+
+### Usage
+
+```console
+npm i ts-utls
+```
+
+This library contains the following functions:
 * For arrays:
   * `chunk`: split an array into chunks of a maximum size;
   * `flatten`: transform an array of arrays of items to an array of items;
   * `groupBy`: group an array of items by some item's field;
-* For numbers:
-  * `euclideanDivision`: computes the euclidean division of two integers, returning the quotient and the remainder;
-  * `int2Buffer`: converts an integer to its byte array equivalent;
-  * `stringBytes2Buffer`: transforms a string representing one or more bytes to a byte array;
+* For numbers and bits:
+  * `euclideanDivision`: compute the euclidean division of two integers, returning the quotient and the remainder;
+  * `int2Buffer`: convert an integer to its byte array equivalent;
+  * `stringBytes2Buffer`: transform a string representing one or more bytes to a byte array;
 * For strings:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
-  * `hashCode`: computes the equivalent of Java's hashCode;
-  * `splitCamelCaseWords`: put a space between each "word" found in a camel-case string.
+  * `hashCode`: compute the equivalent of Java's hashCode;
+  * `splitCamelCaseWords`: put a space between each "word" found in a camel-case string;
+  * `xor`: apply the XOR logical function to two strings in the sense that each charCode is xored.
 
 eg.
 ```typescript
