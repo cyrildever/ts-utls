@@ -1,6 +1,6 @@
 import {
-  capitalize, flatten, hashCode, splitCamelCaseWords, fromHex, toHex
   chunk, flatten, groupBy,
+  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -105,5 +105,17 @@ describe('Hex functions', () => {
     const buffers = hexStrings.map(fromHex)
     const strings = buffers.map(toHex)
     strings.should.eqls(hexStrings)
+  })
+})
+describe('xor', () => {
+  it('should apply the XOR operation on two strings of the same length', () => {
+    const expected = '\u0003'
+    const s1 = 'a'
+    const s2 = 'b'
+    const found = xor(s1, s2)
+    found.should.equal(expected)
+
+    const s3 = 'longer string' 
+    expect(() => xor(s1, s3)).to.throw('strings must be of the same size')
   })
 })

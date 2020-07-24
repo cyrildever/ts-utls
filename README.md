@@ -17,7 +17,7 @@ eg.
 ```typescript
 import {
   chunk, flatten, groupBy,
-  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex
+  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from 'ts-utils'
 
 // For arrays
@@ -51,6 +51,11 @@ console.assert(hexStrings[0] === strings[0])
 
 const sentence = splitCamelCaseWords('myCamelCase')
 console.assert(sentence === 'my Camel Case')
+
+const a = 'a'
+const b = 'b'
+const xored = xor(a, b)
+console.assert(xored === '\u0003')
 ```
 
 Please let me know if you have more optimized implementations.

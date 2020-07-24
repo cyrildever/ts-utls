@@ -70,3 +70,18 @@ export const splitCamelCaseWords = (s: string): string =>
  * @returns the hexadecimal string
  */
 export const toHex = (b: Buffer): string => b.toString('hex')
+
+/**
+ * Applies the XOR function to two strings in the sense that each charCode are XORed
+ * 
+ * @param {string} s1 - The first string to use
+ * @param {string} s2 - The second string
+ * @returns the XORed result
+ * @throws Will throw an error if the two passed strings are not of the same size
+ */
+export const xor = (s1: string, s2: string): string => {
+  if (s1.length !== s2.length) {
+    throw new Error('strings must be of the same size')
+  }
+  return Array.from(s1).reduce((xored, c, idx) => xored + String.fromCharCode(c.charCodeAt(0) ^ s2.charCodeAt(idx)), '')
+}
