@@ -65,7 +65,7 @@ export const int2Buffer = (uint: number): Buffer => {
  * @throws not the string representation of bytes
  */
 export const stringBytes2Buffer = (bits: string): Buffer => {
-  if (bits.length % 8 !== 0 || !bits.match(/^[01]+$/g)) {
+  if (bits.length % 8 !== 0 || !bits.match(/^[01]+$/g)) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
     throw new Error('not the string representation of bytes')
   }
   const buf = Buffer.alloc(bits.length / 8)

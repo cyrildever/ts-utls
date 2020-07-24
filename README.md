@@ -1,8 +1,8 @@
-# ts-utils
+# ts-utls
 
-### Utilities for TypeScript
+### Utilities for TypeScript (in the browser)
 
-Some functions I found useful, to borrow at your discretion:
+Some functions I found useful when using TypeScript for browser apps, to borrow at your discretion:
 * For arrays:
   * `chunk`: split an array into chunks of a maximum size;
   * `flatten`: transform an array of arrays of items to an array of items;
@@ -22,7 +22,7 @@ eg.
 import {
   chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
   capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
-} from 'ts-utils'
+} from 'ts-utls'
 
 // For arrays
 
@@ -75,7 +75,7 @@ const xored = xor(a, b)
 console.assert(xored === '\u0003')
 ```
 
-Please let me know if you have more optimized implementations.
+Please let me know if you have more optimized implementations of any of my stuff.
 
 
 ### License

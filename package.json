@@ -1,7 +1,7 @@
 {
-  "name": "ts-utils",
+  "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
@@ -11,12 +11,24 @@
     "fix-test": "eslint test --ext .ts --fix",
     "test-on-windows": "tsc && browserify dist/test/typescript/index.spec.js -o dist/test/index.js && live-server --port=9001 --mount=/:test/typescript"
   },
-  "license": "MIT",
-  "author": "Cyril Dever <cdever@edgewhere>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cyrildever/ts-utils.git"
+    "url": "git+https://github.com/cyrildever/ts-utls.git"
   },
+  "keywords": [
+    "typescript",
+    "utils",
+    "string",
+    "array",
+    "number",
+    "bits"
+  ],
+  "license": "MIT",
+  "author": "Cyril Dever <cdever@edgewhere>",
+  "bugs": {
+    "url": "https://github.com/cyrildever/ts-utls/issues"
+  },
+  "homepage": "https://github.com/cyrildever/ts-utls#readme",
   "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/mocha": "^5.2.7",
