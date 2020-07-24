@@ -5,6 +5,7 @@
 Some functions I found useful, to borrow at your discretion:
 * For arrays:
   * `flatten`: transform an array of arrays of items to an array of items;
+  * `groupBy`: group an array of items by some item's field;
 * For strings:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
@@ -21,6 +22,10 @@ const arrs = [[1, 2], [3, 4], [5]]
 const flattened = flatten(arrs)
 // [1, 2, 3, 4, 5]
 console.log(flattened)
+
+const arr = [{ field1: '1', field2: 1 }, { field1: '1', field2: 2 }, { field1: '3', field2: 3 }]
+const grouped = groupBy(arr, 'field1')
+console.assert(grouped['1'].length === 2)
 
 // For strings
 
