@@ -1,5 +1,6 @@
 import {
   capitalize, flatten, hashCode, splitCamelCaseWords, fromHex, toHex
+  chunk, flatten, groupBy,
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -11,6 +12,19 @@ describe('capitalize', () => {
     found.should.equal(expected)
 
     ''.should.equal(capitalize(''))
+  })
+})
+describe('chunk', () => {
+  it('should split an array into pieces of the maximum wished size', () => {
+    const arr = [1, 2, 3, 4, 5]
+    const expected = [[1, 2], [3, 4], [5]]
+    const found = chunk(arr, 2)
+
+    found.should.have.lengthOf(3)
+    found[0].should.eqls([1, 2])
+    found[1].should.eqls([3, 4])
+    found[2].should.eqls([5])
+    found.should.eqls(expected)
   })
 })
 describe('flatten', () => {
@@ -28,6 +42,21 @@ describe('flatten', () => {
     expect(found2 instanceof Array).to.be.true
     expect(typeof found2[0] === 'number').to.be.true
     expect(typeof found1 === typeof found2).to.be.true
+  })
+})
+describe('groupBy', () => {
+  it('should regroup objects on field values appropriately', () => {
+    const arr = [{ field1: '1', field2: 1 }, { field1: '1', field2: 2 }, { field1: '3', field2: 3 }]
+    const grouped = groupBy(arr, 'field1')
+    grouped['1'].should.have.lengthOf(2)
+    grouped['3'].should.have.lengthOf(1)
+    Object.entries(grouped).map(([key, value]) => {
+      if (key === '1') {
+        value.should.have.lengthOf(2)
+      } else if (key === '3') {
+        value.should.have.lengthOf(1)
+      }
+    })
   })
 })
 describe('hashCode', () => {

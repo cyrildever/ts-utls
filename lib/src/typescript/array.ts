@@ -1,3 +1,43 @@
+/*
+MIT License
+
+Copyright (c) 2020 Cyril Dever
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/**
+ * Split an array into chunks of the passed size
+ * 
+ * @param {T[]} arr - The array to split
+ * @param {number} chunkSize - The maximum size of chunks
+ * @returns the chunked array of arrays
+ */
+export const chunk = <T>(arr: ReadonlyArray<T>, chunkSize: number): Array<Array<T>> =>
+  arr.reduce(
+    (segments, _, idx) =>
+      idx % chunkSize === 0
+        ? [...segments, arr.slice(idx, idx + chunkSize)] as Array<Array<T>>
+        : segments,
+      new Array<Array<T>>()
+  )
+
 /**
  * Flatten an array of arrays of items into an array of items
  * 

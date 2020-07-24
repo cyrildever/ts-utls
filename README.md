@@ -4,6 +4,7 @@
 
 Some functions I found useful, to borrow at your discretion:
 * For arrays:
+  * `chunk`: split an array into chunks of a maximum size;
   * `flatten`: transform an array of arrays of items to an array of items;
   * `groupBy`: group an array of items by some item's field;
 * For strings:
@@ -14,9 +15,17 @@ Some functions I found useful, to borrow at your discretion:
 
 eg.
 ```typescript
-import { flatten, capitalize, hashCode, fromHex, toHex, splitCamelCaseWords } from 'ts-utils'
+import {
+  chunk, flatten, groupBy,
+  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex
+} from 'ts-utils'
 
 // For arrays
+
+const arr = [1, 2, 3, 4, 5]
+const chunked = chunk(arr)
+// [[1, 2], [3, 4], [5]]
+console.log(chunked)
 
 const arrs = [[1, 2], [3, 4], [5]]
 const flattened = flatten(arrs)
