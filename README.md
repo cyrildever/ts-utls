@@ -7,6 +7,8 @@ Some functions I found useful, to borrow at your discretion:
   * `chunk`: split an array into chunks of a maximum size;
   * `flatten`: transform an array of arrays of items to an array of items;
   * `groupBy`: group an array of items by some item's field;
+* For numbers:
+  * `euclideanDivision`: computes the euclidean division of two integers, returning the quotient and the remainder;
 * For strings:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
@@ -35,6 +37,12 @@ console.log(flattened)
 const arr = [{ field1: '1', field2: 1 }, { field1: '1', field2: 2 }, { field1: '3', field2: 3 }]
 const grouped = groupBy(arr, 'field1')
 console.assert(grouped['1'].length === 2)
+
+// For numbers
+
+const n = 15, d = 2
+const [q, r] = euclideanDivision(n, d)
+console.assert(q === 7 && r === 1)
 
 // For strings
 

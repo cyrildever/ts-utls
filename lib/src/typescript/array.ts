@@ -35,7 +35,7 @@ export const chunk = <T>(arr: ReadonlyArray<T>, chunkSize: number): Array<Array<
       idx % chunkSize === 0
         ? [...segments, arr.slice(idx, idx + chunkSize)] as Array<Array<T>>
         : segments,
-      new Array<Array<T>>()
+    new Array<Array<T>>()
   )
 
 /**

@@ -1,5 +1,5 @@
 import {
-  chunk, flatten, groupBy,
+  chunk, flatten, groupBy, euclideanDivision,
   capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
 } from '../../lib/src/typescript/index'
 
@@ -25,6 +25,17 @@ describe('chunk', () => {
     found[1].should.eqls([3, 4])
     found[2].should.eqls([5])
     found.should.eqls(expected)
+  })
+})
+describe('euclideanDivision', () => {
+  it('should return the correct quotient and remainder', () => {
+    const numerator = 15, denominator = 2
+    const [quotient, remainder] = euclideanDivision(numerator, denominator)
+    quotient.should.equal(7)
+    remainder.should.equal(1) 
+  })
+  it('should throw an error when dividing by zero', () => {
+    expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
   })
 })
 describe('flatten', () => {

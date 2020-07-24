@@ -22,6 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export * from './array'
-export * from './number'
-export * from './string'
+/**
+ * Compute the euclidean division of the passed integers
+ * 
+ * @param {number} numerator - The numerator integer
+ * @param {number} denominator - The divider
+ * @returns a tuple of (quotient, remainder) integers
+ * @throws division by zero
+ */
+export const euclideanDivision = (numerator: number, denominator: number): [number, number] => {
+  if (denominator === 0) {
+    throw new Error('division by zero')
+  }
+  const quotient = Math.floor(numerator / denominator)
+  const remainder = numerator % denominator
+  return [quotient, remainder]
+}

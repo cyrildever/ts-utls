@@ -77,7 +77,7 @@ export const toHex = (b: Buffer): string => b.toString('hex')
  * @param {string} s1 - The first string to use
  * @param {string} s2 - The second string
  * @returns the XORed result
- * @throws Will throw an error if the two passed strings are not of the same size
+ * @throws strings must be of the same size
  */
 export const xor = (s1: string, s2: string): string => {
   if (s1.length !== s2.length) {
