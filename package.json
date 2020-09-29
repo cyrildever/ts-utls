@@ -1,7 +1,7 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
@@ -35,12 +35,12 @@
   },
   "homepage": "https://github.com/cyrildever/ts-utls#readme",
   "devDependencies": {
-    "@types/chai": "^4.2.11",
+    "@types/chai": "^4.2.12",
     "@types/mocha": "^5.2.7",
-    "@types/node": "~13.13.12",
+    "@types/node": "^13.13.21",
     "@typescript-eslint/eslint-plugin": "~2.30.0",
     "@typescript-eslint/parser": "~2.30.0",
-    "browserify": "^16.5.1",
+    "browserify": "^16.5.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "~6.8.0",
