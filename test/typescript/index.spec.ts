@@ -1,6 +1,6 @@
 import {
   chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
+  capitalize, fromHex, hashCode, shuffle, splitCamelCaseWords, toHex, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -32,7 +32,7 @@ describe('euclideanDivision', () => {
     const numerator = 15, denominator = 2
     const [quotient, remainder] = euclideanDivision(numerator, denominator)
     quotient.should.equal(7)
-    remainder.should.equal(1) 
+    remainder.should.equal(1)
   })
   it('should throw an error when dividing by zero', () => {
     expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
@@ -93,6 +93,19 @@ describe('int2Buffer', () => {
     const expected = Buffer.from([233, 194, 2, 0, 0, 0, 0, 0])
     const found = int2Buffer(i)
     found.should.eqls(expected)
+  })
+})
+describe('shuffle', () => {
+  it('should shuffle randomly a string', () => {
+    const str = '1234568790abcdefghijklmnopqrstuvwxyz'
+    const found1 = shuffle(str)
+    found1.should.not.equal(str)
+    const found2 = shuffle(str)
+    found2.should.not.equal(str)
+    found2.should.not.equal(found1)
+    found1.should.have.lengthOf(str.length)
+    found2.should.have.lengthOf(found1.length)
+    console.log(str, found1, found2) // ###
   })
 })
 describe('splitCamelCaseWords', () => {

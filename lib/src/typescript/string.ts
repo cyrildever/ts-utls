@@ -55,6 +55,22 @@ export const hashCode = (s: string): number =>
   Array.from(s).reduce((h: number, c: string) => Math.imul(31, h) + c.charCodeAt(0) | 0, 0)
 
 /**
+ * Shuffle the characters of the passed string
+ * 
+ * @param {string} s - The string to use
+ * @returns the shuffled string
+ * @see http://en.wikipedia.org/wiki/Fisher-Yates_shuffle
+ */
+export const shuffle = (s: string): string =>
+  Array.from(s).reverse().reduce((shuffled, c, idx) => {
+    const j = Math.floor(Math.random() * (idx + 1))
+    const tmp = shuffled.split('')
+    tmp[idx] = shuffled[j]
+    tmp[j] = c
+    return tmp.join('')
+  })
+
+/**
  * Split a camel case string into a sequence of words, eg. MyCamelCaseWord => My Camel Case Word
  * 
  * @param {string} s - The camel case string to use

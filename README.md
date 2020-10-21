@@ -29,6 +29,7 @@ This library contains the following functions:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
   * `hashCode`: compute the equivalent of Java's hashCode;
+  * `shuffle`: randomly shuffle the characters;
   * `splitCamelCaseWords`: put a space between each "word" found in a camel-case string;
   * `xor`: apply the XOR logical function to two strings in the sense that each charCode is xored.
 
@@ -36,7 +37,7 @@ eg.
 ```typescript
 import {
   chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, splitCamelCaseWords, toHex, xor
+  capitalize, fromHex, hashCode, shuffle, splitCamelCaseWords, toHex, xor
 } from 'ts-utls'
 
 // For arrays
@@ -80,6 +81,11 @@ const hexStrings = ['ff']
 const buffers = hexStrings.map(fromHex)
 const strings = buffers.map(toHex)
 console.assert(hexStrings[0] === strings[0])
+
+const str = 'abcd'
+const shuffled = shuffle(str)
+console.assert(str.length === shuffled.length)
+console.assert(str !== shuffled)
 
 const sentence = splitCamelCaseWords('myCamelCase')
 console.assert(sentence === 'my Camel Case')
