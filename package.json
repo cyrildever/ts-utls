@@ -23,6 +23,7 @@
     "number",
     "bits",
     "flatten",
+    "shuffle",
     "groupBy",
     "hashCode",
     "euclidean division",
@@ -37,7 +38,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.14",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^13.13.27",
+    "@types/node": "^13.13.29",
     "@typescript-eslint/eslint-plugin": "~2.30.0",
     "@typescript-eslint/parser": "~2.30.0",
     "browserify": "^16.5.2",
