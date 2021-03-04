@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2020 Cyril Dever
+Copyright (c) 2021 Cyril Dever
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export * from './array'
-export * from './number'
-export * from './string'
-export * from './time'
+/**
+ * @returns {number} the current Unix timestamp in milliseconds
+ */
+export const currentTimestampMillis = (): number => Date.now()
+
+/**
+ * Hold thread for the passed time (in milliseconds)
+ * 
+ * @param {number} ms - The numbe of milliseconds to wait
+ * @example
+ *  // Sleep for 100 ms
+ *  await sleep(100)
+ */
+export const sleep = async (ms: number): Promise<void> =>
+  new Promise(resolve => setTimeout(resolve, ms))

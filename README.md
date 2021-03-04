@@ -31,13 +31,16 @@ This library contains the following functions:
   * `hashCode`: compute the equivalent of Java's hashCode;
   * `shuffle`: randomly shuffle the characters;
   * `splitCamelCaseWords`: put a space between each "word" found in a camel-case string;
-  * `xor`: apply the XOR logical function to two strings in the sense that each charCode is xored.
+  * `xor`: apply the XOR logical function to two strings in the sense that each charCode is xored;
+* For time:
+  * `currentTimestampMillis`: return the current Unix timestamp in milliseconds;
+  * `sleep`: hold the current thread for a while.
 
 eg.
 ```typescript
 import {
-  chunk, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, splitCamelCaseWords, toHex, xor
+  chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
+  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor
 } from 'ts-utls'
 
 // For arrays
@@ -94,6 +97,12 @@ const a = 'a'
 const b = 'b'
 const xored = xor(a, b)
 console.assert(xored === '\u0003')
+
+// For time
+
+const ts = currentTimestampMillis()
+await sleep(100)
+console.assert(currentTimestampMillis() > ts + 100)
 ```
 
 Please let me know if you have more optimized implementations of any of my stuff.

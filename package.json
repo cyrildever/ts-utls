@@ -1,7 +1,7 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
@@ -27,6 +27,7 @@
     "groupBy",
     "hashCode",
     "euclidean division",
+    "sleep",
     "xor"
   ],
   "license": "MIT",
