@@ -62,3 +62,15 @@ export const groupBy = <T extends any, K extends keyof T>(arr: Array<T>, key: K)
       return acc
     }, {} as Record<T[K], Array<T>>
   )
+
+/**
+ * Returns a range of integers
+ * 
+ * It is the equivalent of a for-loop with `i = start` and `i < start + size`
+ * 
+ * @param {number} start - The starting point
+ * @param {number} size - The number of items to return
+ * @returns the array of integers
+ */
+export const range = (start: number, size: number): Array<number> =>
+  [...Array(size).keys()].map(i => i + start)

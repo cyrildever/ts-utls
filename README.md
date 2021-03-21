@@ -21,6 +21,7 @@ This library contains the following functions:
   * `chunk`: split an array into chunks of a maximum size;
   * `flatten`: transform an array of arrays of items to an array of items;
   * `groupBy`: group an array of items by some item's field;
+  * `range`: return a list of integers;
 * For numbers and bits:
   * `euclideanDivision`: compute the euclidean division of two integers, returning the quotient and the remainder;
   * `int2Buffer`: convert an integer to its byte array equivalent;
@@ -58,6 +59,10 @@ console.log(flattened)
 const arr = [{ field1: '1', field2: 1 }, { field1: '1', field2: 2 }, { field1: '3', field2: 3 }]
 const grouped = groupBy(arr, 'field1')
 console.assert(grouped['1'].length === 2)
+
+const firstFive = range(0, 5)
+// [0, 1, 2, 3, 4]
+console.log(firstFive)
 
 // For numbers and bits
 

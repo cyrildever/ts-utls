@@ -1,6 +1,6 @@
 import {
   chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor
+  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -95,6 +95,20 @@ describe('int2Buffer', () => {
     found.should.eqls(expected)
   })
 })
+describe('range', () => {
+  it('should provide a list of integers', () => {
+    let expected = [0, 1, 2, 3, 4]
+    let found = range(0, 5)
+    found.should.eqls(expected)
+
+    expected = [2, 3, 4, 5]
+    found = range(2, 4)
+    found.should.eqls(expected)
+
+    found = range(1, 0)
+    found.should.be.empty
+  })
+})
 describe('shuffle', () => {
   it('should shuffle randomly a string', () => {
     const str = '1234568790abcdefghijklmnopqrstuvwxyz'
@@ -105,7 +119,6 @@ describe('shuffle', () => {
     found2.should.not.equal(found1)
     found1.should.have.lengthOf(str.length)
     found2.should.have.lengthOf(found1.length)
-    console.log(str, found1, found2) // ###
   })
 })
 describe('splitCamelCaseWords', () => {
