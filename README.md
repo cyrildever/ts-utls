@@ -23,6 +23,7 @@ This library contains the following functions:
   * `groupBy`: group an array of items by some item's field;
   * `range`: return a list of integers;
 * For bits and buffers:
+  * `buffer2BytesString`: transform a byte array to its string representation of byte(s);
   * `int2Buffer`: convert an integer to its byte array equivalent;
   * `splitBuffer`: split a byte array using a passed byte array;
   * `stringBytes2Buffer`: transform a string representing one or more bytes to a byte array;
@@ -83,9 +84,11 @@ console.log(splitsWith)
 const buf1 = int2Buffer(1)
 console.assert(buf1[0] === 1)
 
-const b = '11011010'
-const buf2 = stringBytes2Buffer(b)
+const str = '11011010'
+const buf2 = stringBytes2Buffer(str)
 console.assert(buf1[0] === 218)
+const str2 = buffer2BytesString(buf2)
+console.assert(str === str2)
 
 // For numbers
 

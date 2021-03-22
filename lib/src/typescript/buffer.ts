@@ -23,6 +23,15 @@ SOFTWARE.
 */
 
 /**
+ * Convert a bute array to its string representation of byte(s)
+ * 
+ * @param {Buffer} buf - The buffer to transform 
+ * @returns the string representation of the octet(s), ie. one or more sequences of eight 0s or 1s
+ */
+export const buffer2BytesString = (buf: Buffer): string =>
+  [...buf].map(_ => _.toString(2).padStart(8, '0')).join('')
+
+/**
  * Get the byte array from an unsigned integer
  * 
  * @param {number} uint - The unsigned integer to transform

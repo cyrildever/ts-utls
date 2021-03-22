@@ -1,10 +1,28 @@
 import {
   chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, splitBuffer
+  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, splitBuffer, buffer2BytesString
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
 
+describe('buffer2BytesString', () => {
+  it('should transform a byte array in its string representation of bits', () => {
+    let expected = '00000011'
+    let buf = Buffer.from([3])
+    let found = buffer2BytesString(buf)
+    found.should.equal(expected)
+
+    expected = '1111111100000001'
+    buf = Buffer.from([255, 1])
+    found = buffer2BytesString(buf)
+    found.should.equal(expected)
+
+    expected = '01110100011001010111001101110100'
+    buf = Buffer.from('test', 'utf-8')
+    found = buffer2BytesString(buf)
+    found.should.equal(expected)
+  })
+})
 describe('capitalize', () => {
   it('should put the first letter in upper case if any', () => {
     const expected = 'My capitalized sentence'
