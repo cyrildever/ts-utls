@@ -1,6 +1,6 @@
 import {
   chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range
+  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, splitBuffer
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -119,6 +119,31 @@ describe('shuffle', () => {
     found2.should.not.equal(found1)
     found1.should.have.lengthOf(str.length)
     found2.should.have.lengthOf(found1.length)
+  })
+})
+describe('splitBuffer', () => {
+  it('should cut a byte array in parts using another byte array as delimiter', () => {
+    const buf = Buffer.from([0, 1, 128, 2, 3])
+    const delimiter = Buffer.from([128])
+    const found1 = splitBuffer(buf, delimiter)
+    found1.should.have.lengthOf(2)
+    found1[0].should.eqls(Buffer.from([0, 1]))
+    found1[1].should.eqls(Buffer.from([2, 3]))
+    const found2 = splitBuffer(buf, delimiter, true)
+    found2.should.have.lengthOf(3)
+    found2[0].should.eqls(Buffer.from([0, 1]))
+    found2[1].should.eqls(delimiter)
+    found2[2].should.eqls(Buffer.from([2, 3]))
+
+    const buf2 = Buffer.from([0, 1, 127, 128, 2, 3, 127, 128])
+    const delimiter2 = Buffer.from([127, 128])
+    const found3 = splitBuffer(buf2, delimiter2, true)
+    found3.should.have.lengthOf(5)
+    found3[0].should.eqls(Buffer.from([0, 1]))
+    found3[1].should.eqls(delimiter2)
+    found3[2].should.eqls(Buffer.from([2, 3]))
+    found3[3].should.eqls(delimiter2)
+    found3[4].should.be.empty
   })
 })
 describe('splitCamelCaseWords', () => {

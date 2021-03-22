@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 export * from './array'
+export * from './buffer'
 export * from './number'
 export * from './string'
 export * from './time'

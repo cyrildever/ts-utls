@@ -22,10 +22,12 @@ This library contains the following functions:
   * `flatten`: transform an array of arrays of items to an array of items;
   * `groupBy`: group an array of items by some item's field;
   * `range`: return a list of integers;
-* For numbers and bits:
-  * `euclideanDivision`: compute the euclidean division of two integers, returning the quotient and the remainder;
+* For bits and buffers:
   * `int2Buffer`: convert an integer to its byte array equivalent;
+  * `splitBuffer`: split a byte array using a passed byte array;
   * `stringBytes2Buffer`: transform a string representing one or more bytes to a byte array;
+* For numbers:
+  * `euclideanDivision`: compute the euclidean division of two integers, returning the quotient and the remainder;
 * For strings:
   * `capitalize`: capitalize the first letter of a sentence;
   * `fromHex` and `toHex`: transform hexadecimal string representation to byte array, and vice-versa;
@@ -64,11 +66,16 @@ const firstFive = range(0, 5)
 // [0, 1, 2, 3, 4]
 console.log(firstFive)
 
-// For numbers and bits
+// For bits and buffers
 
-const n = 15, d = 2
-const [q, r] = euclideanDivision(n, d)
-console.assert(q === 7 && r === 1)
+const buf0 = Buffer.from([0, 1, 128, 2, 3])
+const delimiter = Buffer.from([128])
+const splitsWithout = splitBuffer(buf0, delimiter, false)
+// [[0, 1], [2, 3]]
+console.log(splitsWithout)
+const splitsWith = splitBuffer(buf0, delimiter, true)
+// [[0, 1], [128], [2, 3]]
+console.log(splitsWith)
 
 const buf1 = int2Buffer(1)
 console.assert(buf1[0] === 1)
@@ -76,6 +83,12 @@ console.assert(buf1[0] === 1)
 const b = '11011010'
 const buf2 = stringBytes2Buffer(b)
 console.assert(buf1[0] === 218)
+
+// For numbers
+
+const n = 15, d = 2
+const [q, r] = euclideanDivision(n, d)
+console.assert(q === 7 && r === 1)
 
 // For strings
 
