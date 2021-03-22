@@ -65,6 +65,9 @@ console.assert(grouped['1'].length === 2)
 const firstFive = range(0, 5)
 // [0, 1, 2, 3, 4]
 console.log(firstFive)
+const evenBefore10 = range(0, 10, 2)
+// [0, 2, 4, 5, 6, 8]
+console.log(evenBefore10)
 
 // For bits and buffers
 

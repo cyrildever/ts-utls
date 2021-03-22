@@ -66,11 +66,12 @@ export const groupBy = <T extends any, K extends keyof T>(arr: Array<T>, key: K)
 /**
  * Returns a range of integers
  * 
- * It is the equivalent of a for-loop with `i = start` and `i < start + size`
+ * It is the equivalent of a for-loop with `i = start` and `i < start + size` with `i = i + step` at the end of each round
  * 
  * @param {number} start - The starting point
- * @param {number} size - The number of items to return
+ * @param {number} end - The number of items to return (not included)
+ * @param {number} step - The (optional) step size between numbers (Default: 1)
  * @returns the array of integers
  */
-export const range = (start: number, size: number): Array<number> =>
-  [...Array(size).keys()].map(i => i + start)
+export const range = (start: number, end: number, step = 1): Array<number> =>
+  [...Array(Math.ceil(end / step)).keys()].map(i => i * step + start)

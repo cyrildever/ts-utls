@@ -108,6 +108,19 @@ describe('range', () => {
     found = range(1, 0)
     found.should.be.empty
   })
+  it('should adapt the list to the step size', () => {
+    const expected1 = [0, 1, 2, 3, 4]
+    let found = range(0, 5, 1)
+    found.should.eqls(expected1)
+
+    const expected2 = [0, 2, 4]
+    found = range(0, 5, 2)
+    found.should.eqls(expected2)
+
+    const expected5 = [0]
+    found = range(0, 5, 5)
+    found.should.eqls(expected5)
+  })
 })
 describe('shuffle', () => {
   it('should shuffle randomly a string', () => {
