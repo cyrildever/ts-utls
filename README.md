@@ -43,8 +43,8 @@ This library contains the following functions:
 eg.
 ```typescript
 import {
-  chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor
+  buffer2BytesString, capitalize, chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, fromHex,
+  int2Buffer, hashCode, range, shuffle, sleep, splitBuffer, splitCamelCaseWords, stringBytes2Buffer, toHex, xor
 } from 'ts-utls'
 
 // For arrays

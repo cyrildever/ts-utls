@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 /**
- * Convert a bute array to its string representation of byte(s)
+ * Convert a byte array to its string representation of byte(s)
  * 
  * @param {Buffer} buf - The buffer to transform 
  * @returns the string representation of the octet(s), ie. one or more sequences of eight 0s or 1s
