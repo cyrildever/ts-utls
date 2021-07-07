@@ -132,6 +132,14 @@ console.assert(currentTimestampMillis() > ts + 100)
 Please let me know if you have more optimized implementations of any of my stuff.
 
 
+### Dependencies
+
+To run the tests, you would need to install [`live-server`|(https://www.npmjs.com/package/live-server):
+```console
+npm i -g live-server
+```
+
+
 ### License
 
 This library is distributed under an MIT license.
