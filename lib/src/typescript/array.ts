@@ -54,7 +54,7 @@ export const flatten = <T>(arrs: Array<Array<T>>): Array<T> =>
  * @param {K} key - The key to use
  * @returns the map array grouped by key
  */
-export const groupBy = <T extends any, K extends keyof T>(arr: Array<T>, key: K): Record<T[K], Array<T>> =>
+export const groupBy = <T extends Record<string | number | symbol, any>, K extends keyof T>(arr: Array<T>, key: K): Record<T[K], Array<T>> =>
   arr.reduce(
     (acc, obj) => {
       const v = obj[key]

@@ -53,7 +53,9 @@ describe('euclideanDivision', () => {
     remainder.should.equal(1)
   })
   it('should throw an error when dividing by zero', () => {
-    expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    expect(() => euclideanDivision(23, 0)).to.throw('division by zero') // eslint-disable-line @typescript-eslint/no-unsafe-call
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   })
 })
 describe('flatten', () => {
@@ -68,9 +70,11 @@ describe('flatten', () => {
     const found1 = flatten<number>(arrs)
     const found2 = flatten(arrs)
     found1.should.eqls(found2)
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     expect(found2 instanceof Array).to.be.true
     expect(typeof found2[0] === 'number').to.be.true
     expect(typeof found1 === typeof found2).to.be.true
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   })
 })
 describe('groupBy', () => {
@@ -86,6 +90,23 @@ describe('groupBy', () => {
         value.should.have.lengthOf(1)
       }
     })
+  })
+  it('should group any custom type on a chosen field', () => {
+    interface MyType {
+      name: string
+      value: any
+    }
+    const objA: MyType = {
+      name: 'A',
+      value: 1
+    }
+    const objB: MyType = {
+      name: 'B',
+      value: 1
+    }
+    const arr = [objA, objB]
+    const grouped = groupBy(arr, 'value')
+    grouped[1].should.have.lengthOf(2)
   })
 })
 describe('hashCode', () => {
@@ -192,7 +213,9 @@ describe('stringBytes2Buffer', () => {
     found.should.eqls(expected)
   })
   it('should throw an error when the string is not an octet', () => {
-    expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes')
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes') // eslint-disable-line @typescript-eslint/no-unsafe-call
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   })
 })
 describe('xor', () => {
@@ -204,7 +227,9 @@ describe('xor', () => {
     found.should.equal(expected)
   })
   it('should throw an error when strings are not of the same length', () => {
-    expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size')
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size') // eslint-disable-line @typescript-eslint/no-unsafe-call
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
   })
 })
 describe('Hex functions', () => {
