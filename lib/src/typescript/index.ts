@@ -24,6 +24,7 @@ SOFTWARE.
 
 export * from './array'
 export * from './buffer'
+export * from './json'
 export * from './number'
 export * from './string'
 export * from './time'

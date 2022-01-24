@@ -27,6 +27,8 @@ This library contains the following functions:
   * `int2Buffer`: convert an integer to its byte array equivalent;
   * `splitBuffer`: split a byte array using a passed byte array;
   * `stringBytes2Buffer`: transform a string representing one or more bytes to a byte array;
+* For JSON:
+  * `ConvertJSON.toClass`: allows casting a JSON string to the targeted class instance;
 * For numbers:
   * `euclideanDivision`: compute the euclidean division of two integers, returning the quotient and the remainder;
 * For strings:
@@ -89,6 +91,10 @@ const buf2 = stringBytes2Buffer(str)
 console.assert(buf1[0] === 218)
 const str2 = buffer2BytesString(buf2)
 console.assert(str === str2)
+
+// For JSON
+const myClass = ConvertJSON.toClass(json, MyClass)
+assert(myClass instanceof MyClass)
 
 // For numbers
 

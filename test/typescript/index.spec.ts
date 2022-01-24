@@ -1,5 +1,5 @@
 import {
-  chunk, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
+  chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
   capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, splitBuffer, buffer2BytesString
 } from '../../lib/src/typescript/index'
 
@@ -43,6 +43,25 @@ describe('chunk', () => {
     found[1].should.eqls([3, 4])
     found[2].should.eqls([5])
     found.should.eqls(expected)
+  })
+})
+describe('ConvertJSON.toClass', () => {
+  it('should return the appropriate object from a JSON string', () => {
+    class MyClass {
+      private name = ''
+      public style?: string = undefined
+
+      public getName(): string {
+        return this.name
+      }
+
+      public getStyle(): string | undefined {
+        return this.style
+      }
+    }
+    const json = '{"name":"MyName"}'
+    const found = ConvertJSON().toClass(json, MyClass)
+    found.getName().should.equal('MyName')
   })
 })
 describe('euclideanDivision', () => {
