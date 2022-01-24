@@ -22,7 +22,6 @@ const toClass = <T>(from: string, cls: TargetedClass<T>): T => {
   const json = JSON.parse(from)
   const keys = Object.keys(using)
   keys.forEach(key => {
-    console.log(key) /// ###
     if (json.hasOwnProperty(key)) {
       using[key as keyof T] = json[key]
     }
