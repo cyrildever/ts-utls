@@ -55,6 +55,15 @@ export const hashCode = (s: string): number =>
   Array.from(s).reduce((h: number, c: string) => Math.imul(31, h) + c.charCodeAt(0) | 0, 0)
 
 /**
+ * Reverse the order of the characters in the passed string
+ * 
+ * @param {string} s - The string to use
+ * @returns the reversed string
+ */
+export const reverse = (s: string): string =>
+  [...s].reduce((reversed, character) => character + reversed, '')
+
+/**
  * Shuffle the characters of the passed string
  * 
  * @param {string} s - The string to use

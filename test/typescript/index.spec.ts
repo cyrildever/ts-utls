@@ -1,6 +1,6 @@
 import {
-  chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer, stringBytes2Buffer,
-  capitalize, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, splitBuffer, buffer2BytesString
+  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer,
+  fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, reverse, splitBuffer, stringBytes2Buffer
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -178,6 +178,14 @@ describe('range', () => {
     const expected5 = [0]
     found = range(0, 5, 5)
     found.should.eqls(expected5)
+  })
+})
+describe('reverse', () => {
+  it('should reverse the order of the characters', () => {
+    const str = 'abcd'
+    const expected = 'dcba'
+    const found = reverse(str)
+    found.should.equal(expected)
   })
 })
 describe('shuffle', () => {
