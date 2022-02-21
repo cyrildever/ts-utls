@@ -6,9 +6,10 @@
 ![Github issues](https://img.shields.io/github/issues/cyrildever/ts-utls)
 ![NPM](https://img.shields.io/npm/l/ts-utls)
 
-ts-utls is a small TypeScript library where I put all useful stuff I regularly need in my projects.
+ts-utls is a small TypeScript library where I put all useful stuff I regularly need in my projects. \
 Feel free to use at your discretion with the apppropriate license mentions.
 
+_NB: I've developed the same kind of libraries for both [Go](https://github.com/cyrildever/go-utls) and [Python](https://pypi.org/project/py-utls/)._
 
 ### Usage
 
