@@ -95,7 +95,8 @@ const str2 = buffer2BytesString(buf2)
 console.assert(str === str2)
 
 // For JSON
-const myClass = ConvertJSON.toClass(json, MyClass)
+
+const myClass = ConvertJSON(jsonStr).toClass(MyClass)
 assert(myClass instanceof MyClass)
 
 // For numbers

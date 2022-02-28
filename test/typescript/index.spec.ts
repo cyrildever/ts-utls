@@ -59,8 +59,8 @@ describe('ConvertJSON.toClass', () => {
         return this.style
       }
     }
-    const json = '{"name":"MyName"}'
-    const found = ConvertJSON().toClass(json, MyClass)
+    const src = '{"name":"MyName"}'
+    const found = ConvertJSON(src).toClass(MyClass)
     found.getName().should.equal('MyName')
   })
 })

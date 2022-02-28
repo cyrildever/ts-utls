@@ -3,7 +3,10 @@ export interface TargetedClass<T> {
 }
 
 export interface ConvertJSON {
-  toClass: <T>(from: string, using: TargetedClass<T>) => T
+  /**
+   * @returns an instance of the targeted class type
+   */
+  toClass: <T>(using: TargetedClass<T>) => T
 }
 
 /* eslint-disable no-prototype-builtins,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
@@ -17,7 +20,7 @@ export interface ConvertJSON {
  *
  * @example
  */
-const toClass = <T>(from: string, cls: TargetedClass<T>): T => {
+const toClass = (from: string) => <T>(cls: TargetedClass<T>): T => {
   const using = new cls()
   const json = JSON.parse(from)
   const keys = Object.keys(using)
@@ -31,6 +34,11 @@ const toClass = <T>(from: string, cls: TargetedClass<T>): T => {
 
 /* eslint-enable no-prototype-builtins,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
 
-export const ConvertJSON = (): ConvertJSON => ({
-  toClass: toClass
+/**
+ * Base class for converting JSON string to custom type
+ * 
+ * @param {string} str - The JSON source
+ */
+export const ConvertJSON = (str: string): ConvertJSON => ({
+  toClass: toClass(str)
 })
