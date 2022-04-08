@@ -235,7 +235,7 @@ describe('splitCamelCaseWords', () => {
 })
 describe('toMySQLDateOrEmpty', () => {
   it('should return the appropriate formatted string from a string date', () => {
-    const expected = '2022-04-08'
+    let expected = '2022-04-08'
     let found = toMySQLDateOrEmpty('Apr 8 2022')
     found.should.equal(expected)
 
@@ -246,6 +246,13 @@ describe('toMySQLDateOrEmpty', () => {
     found.should.equal(expected)
 
     found = toMySQLDateOrEmpty('Fri Apr 8 2022 00:00:00 GMT+0200')
+    found.should.equal(expected)
+
+    expected = '2022-04-08 23:59:59'
+    found = toMySQLDateOrEmpty('2022-04-08T23:59:59.000Z', true)
+    found.should.equal(expected)
+
+    found = toMySQLDateOrEmpty('2022-04-08T23:59:59.000', true)
     found.should.equal(expected)
 
     found = toMySQLDateOrEmpty('not-a-date')

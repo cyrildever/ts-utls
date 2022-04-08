@@ -1,7 +1,7 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {

@@ -43,13 +43,14 @@ export const sleep = async (ms: number): Promise<void> =>
  *  `db.query('SELECT * FROM mytable WHERE mytimefield < ?', [toMySQLDateOrEmpty('Apr 8 2022')])`
  * 
  * @param {string} date - The string to use as date
+ * @param {boolean} withTime - [optional] Set to `true` to include trailing time (defaut: `false`)
  * @returns the MySQL-compatible string (or an empty string if the input is not a valid date)
  */
-export const toMySQLDateOrEmpty = (date: string): string => {
+export const toMySQLDateOrEmpty = (date: string, withTime = false): string => {
   try {
     const [str, offset] = date.endsWith('Z') ? [date, 0] : [date, new Date(date).getTimezoneOffset() * 60 * 1000]
     const d = offset === 0 ? new Date(str) : new Date(new Date(str).getTime() - offset)
-    return d.toJSON().slice(0, 10)
+    return d.toJSON().slice(0, withTime ? 19 : 10).replace('T', ' ')
   } catch (_) {
     return ''
   }
