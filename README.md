@@ -43,14 +43,13 @@ This library contains the following functions:
 * For time:
   * `currentTimestampMillis`: return the current Unix timestamp in milliseconds;
   * `sleep`: hold the current thread for a while;
-  * `string2MySQLDate`: transform any date string to a MySQL-compatible date for SQL statement.
+  * `toMySQLDateOrEmpty`: transform any date string to a MySQL-compatible date for SQL statement.
 
 eg.
 ```typescript
 import {
   buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, 
-  int2Buffer, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, range, reverse, splitBuffer, string2MySQLDate, 
-  stringBytes2Buffer, toHex, xor
+  int2Buffer, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, range, reverse, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from 'ts-utls'
 
 // For arrays
@@ -143,9 +142,9 @@ const ts = currentTimestampMillis()
 await sleep(100)
 console.assert(currentTimestampMillis() > ts + 100)
 
-const date = 'Fri Apr 8 2022 00:00:00 GMT+0200'
-const mysqlDate = string2MySQLDate(date)
-console.assert(mysqlDate === '2022-04-08')
+const date = 'Fri Apr 8 2022 01:00:00 GMT+0200'
+const mysqlDatetime = toMySQLDateOrEmpty(date, true)
+console.assert(mysqlDatetime === '2022-04-08 01:00:00')
 ```
 
 Please let me know if you have more optimized implementations of any of my stuff.
