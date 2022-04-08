@@ -1,6 +1,6 @@
 import {
   buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer,
-  fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, toHex, xor, range, reverse, splitBuffer, stringBytes2Buffer
+  fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, range, reverse, splitBuffer, string2MySQLDate, stringBytes2Buffer, toHex, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -229,6 +229,22 @@ describe('splitCamelCaseWords', () => {
   it('should separate words in a camel case string', () => {
     const expected = 'My Camel Case Word'
     const found = splitCamelCaseWords('MyCamelCaseWord')
+    found.should.equal(expected)
+  })
+})
+describe('string2MySQLDate', () => {
+  it('should return the appropriate formatted string from a Date', () => {
+    const expected = '2022-04-08'
+    let found = string2MySQLDate('Apr 8 2022')
+    found.should.equal(expected)
+
+    found = string2MySQLDate('2022-04-08T23:59:59.000Z')
+    found.should.equal(expected)
+
+    found = string2MySQLDate('2022-04-08T23:59:59.000')
+    found.should.equal(expected)
+
+    found = string2MySQLDate('Fri Apr 8 2022 00:00:00 GMT+0200')
     found.should.equal(expected)
   })
 })

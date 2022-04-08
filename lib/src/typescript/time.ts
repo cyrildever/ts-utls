@@ -37,3 +37,16 @@ export const currentTimestampMillis = (): number => Date.now()
  */
 export const sleep = async (ms: number): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, ms))
+
+/**
+ * Format a timezone-neutralized date to use in SQL statement for a TIMESTAMP or a DATETIME field, eg.
+ *  `db.query('SELECT * FROM mytable WHERE mytimefield < ?', [string2MySQLDate('Apr 8 2022')])`
+ * 
+ * @param {string} date - The string to use as date
+ * @returns the MySQL-compatible string
+ */
+export const string2MySQLDate = (date: string): string => {
+  const [str, offset] = date.endsWith('Z') ? [date.slice(0, -1), 0] : [date, new Date(date).getTimezoneOffset() * 60 * 1000]
+  const d = offset === 0 ? new Date(str) : new Date(new Date(str).getTime() - offset)
+  return d.toJSON().slice(0, 10)
+}
