@@ -6,7 +6,7 @@ export interface ConvertJSON {
   /**
    * @returns an instance of the targeted class type
    */
-  toClass: <T>(using: TargetedClass<T>) => T
+  toClass: <T extends object>(using: TargetedClass<T>) => T
 }
 
 /* eslint-disable no-prototype-builtins,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
@@ -15,12 +15,12 @@ export interface ConvertJSON {
  * Transforms a JSON to the desired object
  * 
  * @param {string} from - The JSON source
- * @param {T} cls - The targeted type 
+ * @type {T} cls - The targeted type that extends the base object
  * @returns the instance of the object
  *
  * @example
  */
-const toClass = (from: string) => <T>(cls: TargetedClass<T>): T => {
+const toClass = (from: string) => <T extends object>(cls: TargetedClass<T>): T => {
   const using = new cls()
   const json = JSON.parse(from)
   const keys = Object.keys(using)
