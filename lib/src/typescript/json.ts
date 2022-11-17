@@ -21,15 +21,15 @@ export interface ConvertJSON {
  * @example
  */
 const toClass = (from: string) => <T extends object>(cls: TargetedClass<T>): T => {
-  const using = new cls()
+  const klass = new cls()
   const json = JSON.parse(from)
-  const keys = Object.keys(using)
+  const keys = Object.keys(klass)
   keys.forEach(key => {
     if (json.hasOwnProperty(key)) {
-      using[key as keyof T] = json[key]
+      klass[key as keyof T] = json[key]
     }
   })
-  return using
+  return klass
 }
 
 /* eslint-enable no-prototype-builtins,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-assignment */
