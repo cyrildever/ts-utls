@@ -1,7 +1,7 @@
 import {
   buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer,
-  fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, range, reverse, splitBuffer, stringBytes2Buffer, toMySQLDateOrEmpty,
-  toHex, xor
+  fromHex, hashCode, Maybe, None, shuffle, sleep, Some, splitCamelCaseWords, range, reverse, splitBuffer, stringBytes2Buffer,
+  toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -318,6 +318,28 @@ describe('Time functions', () => {
       await sleep(hold)
       const ts2 = currentTimestampMillis()
       ts2.should.be.gte(ts1 + hold)
+    })
+  })
+})
+describe('Maybe', () => {
+  describe('None', () => {
+    it('should be empty', () => {
+      const none = None<string>()
+      none.isNone().should.be.true
+      none.isSome().should.be.false
+      none.getOrElse('test').should.equal('test')
+    })
+  })
+  describe('Some', () => {
+    it('should return the right value and type', () => {
+      const ref = Buffer.from('test')
+      const someBytes: Maybe<Buffer> = Some(ref)
+      someBytes.isSome().should.be.true
+      someBytes.isNone().should.be.false
+      const bytes = someBytes.some()
+      bytes.should.eqls(ref)
+      bytes.toString().should.equal('test')
+      someBytes.getOrElse(Buffer.from([123])).should.eqls(ref)
     })
   })
 })

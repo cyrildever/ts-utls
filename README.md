@@ -45,11 +45,12 @@ This library contains the following functions:
   * `sleep`: hold the current thread for a while;
   * `toMySQLDateOrEmpty`: transform any date string to a MySQL-compatible date for SQL statement.
 
+It also contains an extremely simplified version of a `Maybe` monad.
+
 eg.
 ```typescript
 import {
-  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, 
-  int2Buffer, fromHex, hashCode, shuffle, sleep, splitCamelCaseWords, range, reverse, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
+  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, euclideanDivision, flatten, fromHex, groupBy, hashCode, int2Buffer, Maybe, None, range, reverse, shuffle, sleep, Some, splitCamelCaseWords, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from 'ts-utls'
 
 // For arrays
@@ -145,6 +146,12 @@ console.assert(currentTimestampMillis() > ts + 100)
 const date = 'Fri Apr 8 2022 01:00:00 GMT+0200'
 const mysqlDatetime = toMySQLDateOrEmpty(date, true)
 console.assert(mysqlDatetime === '2022-04-08 01:00:00')
+
+// Maybe
+const maybeString: Maybe<string> = Some('string')
+console.assert(maybeString.isSome() && !maybeString.isNone() && maybeString.some() === 'string' && maybeString.getOrElse('nothing') === 'string')
+const nothing = None<string>()
+console.assert(nothing.isNone() && !nothing.isSome(), nothing.getOrElse('something') === 'something')
 ```
 
 Please let me know if you have more optimized implementations of any of my stuff.
