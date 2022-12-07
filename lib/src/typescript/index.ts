@@ -24,6 +24,7 @@ SOFTWARE.
 
 export * from './array'
 export * from './buffer'
+export * from './either'
 export * from './json'
 export * from './maybe'
 export * from './number'

@@ -1,7 +1,7 @@
 import {
-  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, flatten, groupBy, euclideanDivision, int2Buffer,
-  fromHex, hashCode, Maybe, None, shuffle, sleep, Some, splitCamelCaseWords, range, reverse, splitBuffer, stringBytes2Buffer,
-  toHex, toMySQLDateOrEmpty, xor
+  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, Either, euclideanDivision, flatten, groupBy,
+  int2Buffer, fromHex, hashCode, Left, Maybe, None, Right, shuffle, sleep, Some, splitCamelCaseWords, range, reverse,
+  splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -340,6 +340,59 @@ describe('Maybe', () => {
       bytes.should.eqls(ref)
       bytes.toString().should.equal('test')
       someBytes.getOrElse(Buffer.from([123])).should.eqls(ref)
+    })
+  })
+})
+describe('Either', () => {
+  describe('Left', () => {
+    const leftString = Left('abcd')
+    it('should return the left value', () => {
+      leftString.isLeft().should.be.true
+      leftString.left().should.equal('abcd')
+    })
+    it('should be transformed by a map', () => {
+      const leftLength = leftString.map(function (val: any): number {
+        return val.length // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+      })
+      leftLength.isLeft().should.be.true
+      leftLength.left().should.equal(4)
+    })
+    it('should only run the left side of fold', () => {
+      const leftFold = leftString.fold(function (val: string): string {
+        return 'left ' + val
+      }, function (val: unknown): string {
+        throw val
+      })
+      leftFold.should.equal('left abcd')
+    })
+    it('should run correctly a leftMap', () => {
+      const leftMapped = leftString.leftMap(function (val: string): string {
+        return 'left: ' + val
+      })
+      leftMapped.left().should.equal('left: abcd')
+    })
+  })
+  describe('Right', () => {
+    const rightString = Right('efgh')
+    it('should return the left value', () => {
+      rightString.isRight().should.be.true
+      rightString.right().should.equal('efgh')
+      rightString.takeRight(Either('efgh', true)).should.eqls(rightString)
+    })
+    it('should be transformed by a map', () => {
+      const rightLength = rightString.map(function (val: any): number {
+        return val.length // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+      })
+      rightLength.isRight().should.be.true
+      rightLength.right().should.equal(4)
+    })
+    it('should only run the right side of fold', () => {
+      const rightFold = rightString.fold(function (val: unknown): string {
+        throw val
+      }, function (val: string): string {
+        return 'right ' + val
+      })
+      rightFold.should.equal('right efgh')
     })
   })
 })
