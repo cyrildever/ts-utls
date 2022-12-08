@@ -118,8 +118,8 @@ class MaybeImpl<T> implements Maybe<T> {
 
   filter(fn: (val: T | null) => boolean): Maybe<T> {
     const self = this // eslint-disable-line @typescript-eslint/no-this-alias
-    return self.flatMap(function (a: T): Maybe<T> {
-      return fn(a) ? self : None<T>()
+    return self.flatMap(function (a: T | null): Maybe<T> {
+      return a !== null && fn(a) ? Some(self.val) : None<T>()
     })
   }
 
