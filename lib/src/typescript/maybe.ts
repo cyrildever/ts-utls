@@ -35,8 +35,8 @@ export interface Maybe<T> {
 
   /* Maybe specifics */
   cata<Z>(none: () => Z, some: (val: T) => Z): Z
-  filter<U extends T>(fn: (val: T | null) => val is U): Maybe<U>
-  filter(fn: (val: T | null) => boolean): Maybe<T>
+  filter<U extends T>(fn: (val: T) => val is U): Maybe<U>
+  filter(fn: (val: T) => boolean): Maybe<T>
   fold<V>(val: V): (fn: (val: T) => V) => V
   forEach(fn: (val: T) => void): void
 
@@ -116,9 +116,9 @@ class MaybeImpl<T> implements Maybe<T> {
     return this.isSome() ? some(this.val) : none()
   }
 
-  filter(fn: (val: T | null) => boolean): Maybe<T> {
+  filter(fn: (val: T) => boolean): Maybe<T> {
     const self = this // eslint-disable-line @typescript-eslint/no-this-alias
-    return self.flatMap(function (a: T | null): Maybe<T> {
+    return self.flatMap(function (a: T): Maybe<T> {
       return a !== null && fn(a) ? Some(self.val) : None<T>()
     })
   }
