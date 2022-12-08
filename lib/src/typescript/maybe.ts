@@ -34,6 +34,12 @@ export interface Maybe<T> {
   takeRight(m: Maybe<T>): Maybe<T>
 
   /* Maybe specifics */
+  cata<Z>(none: () => Z, some: (val: T) => Z): Z
+  filter<U extends T>(fn: (val: T) => val is U): Maybe<U>
+  filter(fn: (val: T) => boolean): Maybe<T>
+  fold<V>(val: V): (fn: (val: T) => V) => V
+  forEach(fn: (val: T) => void): void
+
   getOrElse(val: T): T
   isNone(): boolean
   isSome(): boolean
@@ -106,6 +112,28 @@ class MaybeImpl<T> implements Maybe<T> {
 
   /* Maybe specifics */
 
+  cata<Z>(none: () => Z, some: (val: T) => Z): Z {
+    return this.isSome() ? some(this.val) : none()
+  }
+
+  filter(fn: (val: T) => boolean): Maybe<T> {
+    const self = this // eslint-disable-line @typescript-eslint/no-this-alias
+    return self.flatMap(function (a: T): Maybe<T> {
+      return fn(a) ? self : None<T>()
+    })
+  }
+
+  fold<V>(defaultValue: V): (fn: (val: T) => V) => V {
+    const self = this // eslint-disable-line @typescript-eslint/no-this-alias
+    return function (fn) {
+      return self.isSome() ? fn(self.val) : defaultValue
+    }
+  }
+
+  forEach(fn: (val: T) => void): void {
+    return this.cata(noop, fn)
+  }
+
   getOrElse(val: T): T {
     return this.hasValue ? this.val : val
   }
@@ -150,6 +178,8 @@ const idFunction = (value: any): any =>
 
 const isNothing = (val: any): boolean =>
   val === null || val === undefined
+
+const noop = (): void => { } // eslint-disable-line @typescript-eslint/no-empty-function
 
 export const Some = <T>(val: T): Maybe<T> =>
   new MaybeImpl(true, val)
