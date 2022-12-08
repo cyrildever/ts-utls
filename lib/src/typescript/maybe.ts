@@ -156,3 +156,9 @@ export const Some = <T>(val: T): Maybe<T> =>
 
 export const None = <T>(): Maybe<T> =>
   new MaybeImpl(false, null as T)
+
+export const Maybe = {
+  fromNull: function <T>(val: T): Maybe<T> {
+    return isNothing(val) ? None<T>() : Some(val)
+  }
+}

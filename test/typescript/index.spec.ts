@@ -322,6 +322,16 @@ describe('Time functions', () => {
   })
 })
 describe('Maybe', () => {
+  describe('fromNull', () => {
+    it('should return the appropriate Maybe', () => {
+      const maybeString = Maybe.fromNull('string')
+      maybeString.isSome().should.be.true
+      maybeString.some().should.equal('string')
+
+      const maybeNull = Maybe.fromNull(undefined)
+      maybeNull.isNone().should.be.true
+    })
+  })
   describe('None', () => {
     it('should be empty', () => {
       const none = None<string>()
