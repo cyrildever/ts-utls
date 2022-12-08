@@ -45,7 +45,9 @@ This library contains the following functions:
   * `sleep`: hold the current thread for a while;
   * `toMySQLDateOrEmpty`: transform any date string to a MySQL-compatible date for SQL statement.
 
-It also contains an extremely simplified version of `Maybe` and `Either` monads.
+It also contains an extremely simplified version of `Maybe` and `Either` monads. \
+These latter implementations are heavily inspired by the [`monet`](https://www.npmjs.com/package/monet) library which I had to decouple due to incompatibilities with TypeScript versions higher than `4.7`, hence the creation of these monads. \
+They probably should be challenged yet.
 
 eg.
 ```typescript
@@ -148,15 +150,19 @@ const mysqlDatetime = toMySQLDateOrEmpty(date, true)
 console.assert(mysqlDatetime === '2022-04-08 01:00:00')
 
 // Maybe
+
 const maybeString: Maybe<string> = Some('string')
 console.assert(maybeString.isSome() && !maybeString.isNone() && maybeString.some() === 'string' && maybeString.getOrElse('nothing') === 'string')
 const nothing = None<string>()
 console.assert(nothing.isNone() && !nothing.isSome(), nothing.getOrElse('something') === 'something')
 
 // Either
+
 const eitherString = Either('string', true)
 console.assert(eitherString.isRight())
 console.assert(eitherString.right() === 'string')
+const rightString = Right('right')
+console.assert(rightString.equals(eitherString))
 ```
 
 Please let me know if you have more optimized implementations of any of my stuff.

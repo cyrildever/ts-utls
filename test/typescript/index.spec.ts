@@ -371,13 +371,20 @@ describe('Either', () => {
       })
       leftMapped.left().should.equal('left: abcd')
     })
+    it('should return None when calling toMaybe', () => {
+      const maybeLeft = leftString.toMaybe()
+      maybeLeft.isNone().should.be.true
+    })
   })
   describe('Right', () => {
     const rightString = Right('efgh')
-    it('should return the left value', () => {
+    it('should return the right value', () => {
       rightString.isRight().should.be.true
       rightString.right().should.equal('efgh')
-      rightString.takeRight(Either('efgh', true)).should.eqls(rightString)
+
+      const otherRight = Either('ijkl', true)
+      rightString.takeRight(otherRight).should.eqls(otherRight)
+      rightString.takeRight(otherRight).equals(otherRight).should.be.true
     })
     it('should be transformed by a map', () => {
       const rightLength = rightString.map(function (val: any): number {
@@ -393,6 +400,11 @@ describe('Either', () => {
         return 'right ' + val
       })
       rightFold.should.equal('right efgh')
+    })
+    it('should return the right as Maybe when calling toMaybe', () => {
+      const maybeRight = rightString.toMaybe()
+      maybeRight.isSome().should.be.true
+      maybeRight.some().should.equal('efgh')
     })
   })
 })

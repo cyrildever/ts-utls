@@ -37,6 +37,7 @@ export interface Either<E, T> {
 
   /* Either specifics */
   cata<Z>(leftFn: (err: E) => Z, rightFn: (val: T) => Z): Z
+  equals(other: Either<E, T>): boolean
   fold<Z>(leftFn: (err: E) => Z, rightFn: (val: T) => Z): Z
   leftMap<F>(fn: (leftVal: E) => F): Either<F, T>
 
@@ -44,6 +45,9 @@ export interface Either<E, T> {
   isRight(): boolean
   left(): E
   right(): T
+  forEach(fn: (val: T) => void): void
+  forEachLeft(fn: (val: E) => void): void
+
   toMaybe(): Maybe<T>
   toPromise(): Promise<T>
 }
@@ -109,8 +113,20 @@ class EitherImpl<E, T> implements Either<E, T> {
   }
 
   /* Either specifics */
+
   cata<Z>(leftFn: (err: E) => Z, rightFn: (val: T) => Z): Z {
     return this.isRightValue ? rightFn(this.value as T) : leftFn(this.value as E)
+  }
+
+  equals(other: Either<E, T>): boolean {
+    return this.cata(
+      function (left: E): boolean {
+        return other.cata(equals(left), falseFunction)
+      },
+      function (right: T): boolean {
+        return other.cata(falseFunction, equals(right))
+      }
+    )
   }
 
   fold<Z>(leftFn: (err: E) => Z, rightFn: (val: T) => Z): Z {
@@ -143,6 +159,14 @@ class EitherImpl<E, T> implements Either<E, T> {
     throw new Error('Cannot call right() on a Left.')
   }
 
+  forEach(fn: (val: T) => void): void {
+    this.cata(noop, fn)
+  }
+
+  forEachLeft(fn: (val: E) => void): void {
+    this.cata(fn, noop)
+  }
+
   toMaybe(): Maybe<T> {
     return this.isRight() ? Some(this.value as T) : None<T>()
   }
@@ -169,12 +193,42 @@ const curry = (fn: any, args: Array<any>) => {
   }
 }
 
+const equals = <E, T>(a: E | T): (b: E | T) => boolean => {
+  return function (b: E | T): boolean {
+    return areEqual(a, b)
+  }
+}
+
+const areEqual = (a: any, b: any): boolean => {
+  if (a === b || a !== a && b !== b) {
+    return true // eslint-disable-line no-self-compare
+  }
+  if (!a || !b) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
+    return false
+  }
+  /* eslint-disable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
+  if (isFunction(a.equals) && isFunction(b.equals)) {
+    return a.equals(b)
+  }
+  /* eslint-enable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
+  return false
+}
+
+const falseFunction = (): boolean => {
+  return false
+}
+
 const getArgs = (args: IArguments): Array<any> =>
   Array.prototype.slice.call(args)
 
 
 const idFunction = (value: any): any =>
   value
+
+const isFunction = (f: any): boolean =>
+  Boolean(f && f.constructor && f.call && f.apply) // eslint-disable-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
+
+const noop = (): void => { } // eslint-disable-line @typescript-eslint/no-empty-function
 
 export const Either = <E, T>(val: T, isRightValue: boolean): Either<E, T> =>
   new EitherImpl<E, T>(val, isRightValue)
