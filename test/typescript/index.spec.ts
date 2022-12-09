@@ -1,6 +1,6 @@
 import {
   buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, Either, euclideanDivision, flatten, groupBy,
-  int2Buffer, fromHex, hashCode, Left, Maybe, None, Right, shuffle, sleep, Some, splitCamelCaseWords, range, reverse,
+  int2Buffer, fromHex, hashCode, Left, List, Maybe, None, Right, shuffle, sleep, Some, splitCamelCaseWords, range, reverse,
   splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
 
@@ -415,6 +415,44 @@ describe('Either', () => {
       const maybeRight = rightString.toMaybe()
       maybeRight.isSome().should.be.true
       maybeRight.some().should.equal('efgh')
+    })
+  })
+})
+describe('List', () => {
+  describe('fromArray', () => {
+    it('should build a List from an array', () => {
+      const initialArray = ['a', 'b', 'c']
+      const list = List.fromArray(initialArray)
+      list.size().should.equal(3)
+      list.head()?.should.equal('a')
+
+      const listMaybe = List.fromArray([Some('a'), Some('b'), Some('c')])
+      listMaybe.size().should.equal(3)
+      const secondList = listMaybe.flattenMaybe<string>()
+      secondList.should.eqls(list)
+
+      const secondArray = secondList.toArray()
+      secondArray.should.eqls(initialArray)
+
+      let receiveEffect = ''
+      secondList.forEach((str: string) => {
+        receiveEffect += str + '.'
+      })
+      receiveEffect.should.equal('a.b.c.')
+    })
+  })
+  describe('contains', () => {
+    it('should tell if an item belongs to a list', () => {
+      const list = List.fromArray(['a', 'b', 'c'])
+      list.contains('a').should.be.true
+      list.contains('zzz').should.be.false
+    })
+  })
+  describe('filter', () => {
+    it('should return the appropriately filtered list', () => {
+      const list = List.fromArray(['a', 'b', 'c'])
+      const filteredList = list.filter(a => a !== 'a')
+      filteredList.toArray().should.eqls(['b', 'c'])
     })
   })
 })

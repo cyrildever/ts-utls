@@ -24,9 +24,10 @@ SOFTWARE.
 
 export * from './array'
 export * from './buffer'
-export * from './either'
 export * from './json'
-export * from './maybe'
+export * from './monad/either'
+export * from './monad/list'
+export * from './monad/maybe'
 export * from './number'
 export * from './string'
 export * from './time'

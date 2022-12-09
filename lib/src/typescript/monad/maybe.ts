@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import { List, Nil } from '..'
+
 export interface Maybe<T> {
   /* Monad implementation */
   ap<V>(maybeFn: Maybe<(val: T) => V>): Maybe<V>
@@ -44,6 +46,7 @@ export interface Maybe<T> {
   isNone(): boolean
   isSome(): boolean
   some(): T
+  toList(): List<T>
 }
 
 class MaybeImpl<T> implements Maybe<T> {
@@ -153,6 +156,10 @@ class MaybeImpl<T> implements Maybe<T> {
       throw new Error('Cannot call .some() on a None.')
     }
   }
+
+  toList(): List<T> {
+    return this.hasValue ? List.of(this.val) : Nil<T>()
+  }
 }
 
 const apply2 = <T>(a1: Maybe<T>, a2: Maybe<T>, f: (a: Maybe<T>, b: Maybe<T>) => Maybe<T>): Maybe<T> =>
@@ -195,9 +202,14 @@ const fromUndefined = <V>(val: V | undefined): Maybe<V> => {
   return val === undefined ? None<V>() : Some(val as V)
 }
 
+const toList = <T>(val: Maybe<T>): List<T> => {
+  return val.toList()
+}
+
 export const Maybe = {
   fromNull,
   fromUndefined,
   None,
-  Some
+  Some,
+  toList
 }
