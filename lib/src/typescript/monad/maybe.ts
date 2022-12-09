@@ -187,8 +187,17 @@ export const Some = <T>(val: T): Maybe<T> =>
 export const None = <T>(): Maybe<T> =>
   new MaybeImpl(false, null as T)
 
+const fromNull = <T>(val: T | null): Maybe<T> => {
+  return isNothing(val) ? None<T>() : Some<T>(val as T)
+}
+
+const fromUndefined = <V>(val: V | undefined): Maybe<V> => {
+  return val === undefined ? None<V>() : Some(val as V)
+}
+
 export const Maybe = {
-  fromNull: function <T>(val: T | null): Maybe<T> {
-    return isNothing(val) ? None<T>() : Some<T>(val as T)
-  }
+  fromNull,
+  fromUndefined,
+  None,
+  Some
 }
