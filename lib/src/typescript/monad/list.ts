@@ -309,3 +309,25 @@ export const List = {
 
 export const Nil = <T>(): List<T> =>
   new ListImpl<T>()
+
+export type NonEmptyList<T> = List<T>
+
+const maybeFromArray = <T>(arr: Array<T>): Maybe<NonEmptyList<T>> => {
+  if (arr.length === 0) {
+    return None<NonEmptyList<T>>()
+  }
+  const list = List.fromArray(arr)
+  return list.isNil
+    ? None<NonEmptyList<T>>()
+    : Some(list)
+}
+
+const fromList = <T>(arr: List<T>): Maybe<NonEmptyList<T>> =>
+  arr.isNil
+    ? None<NonEmptyList<T>>()
+    : Some(arr)
+
+export const NonEmptyList = {
+  fromArray: maybeFromArray,
+  fromList
+}

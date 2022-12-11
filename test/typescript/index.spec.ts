@@ -1,7 +1,7 @@
 import {
   buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, Either, euclideanDivision, flatten, groupBy,
-  int2Buffer, fromHex, hashCode, Left, List, Maybe, None, Right, shuffle, sleep, Some, splitCamelCaseWords, range, reverse,
-  splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
+  int2Buffer, fromHex, hashCode, Left, List, Maybe, None, NonEmptyList, Right, shuffle, sleep, Some, splitCamelCaseWords,
+  range, reverse, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
 
 declare function expect(val: any, message?: string): any
@@ -469,6 +469,23 @@ describe('List', () => {
 
       const noneZ = list.find(_ => _ === 'zzz')
       noneZ.isNone().should.be.true
+    })
+  })
+})
+describe('NonEmptyList', () => {
+  describe('fromList', () => {
+    it('should return a non empty list', () => {
+      const initialArray = ['a', 'b', 'c']
+      const list = List.fromArray(initialArray)
+      const nonEmptyList = NonEmptyList.fromList(list)
+      nonEmptyList.isSome().should.be.true
+      nonEmptyList.some().toArray().should.eqls(initialArray)
+    })
+  })
+  describe('fromArray', () => {
+    it('should return the appropriate list', () => {
+      const emptyList = NonEmptyList.fromArray([])
+      emptyList.isNone().should.be.true
     })
   })
 })
