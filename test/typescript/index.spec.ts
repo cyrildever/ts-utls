@@ -340,6 +340,20 @@ describe('Maybe', () => {
       none.getOrElse('test').should.equal('test')
     })
   })
+  describe('orUndefined', () => {
+    it('should return an undefined value when None', () => {
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+      const none = None<string>()
+      const undefinedValue = none.orUndefined()
+      expect(undefinedValue).to.be.undefined
+
+      const someString = Some('string')
+      expect(someString.orUndefined()).to.not.be.undefined
+
+      expect(none.orNull()).to.be.null
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+    })
+  })
   describe('Some', () => {
     it('should return the right value and type', () => {
       const ref = Buffer.from('test')

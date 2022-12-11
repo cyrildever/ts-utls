@@ -42,8 +42,12 @@ export interface Maybe<T> {
   filter(fn: (val: T) => boolean): Maybe<T>
   fold<V>(val: V): (fn: (val: T) => V) => V
   forEach(fn: (val: T) => void): void
-
   getOrElse(val: T): T
+  orElse(maybe: Maybe<T>): Maybe<T>
+  orSome(val: T | undefined): T | undefined
+  orNull(): T | null
+  orUndefined(): T | undefined
+
   isNone(): boolean
   isSome(): boolean
   some(): T
@@ -150,6 +154,22 @@ class MaybeImpl<T> implements Maybe<T> {
 
   getOrElse(val: T): T {
     return this.hasValue ? this.val : val
+  }
+
+  orElse(maybe: Maybe<T>): Maybe<T> {
+    return this.isSome() ? this : maybe
+  }
+
+  orSome(otherValue: T): T {
+    return this.hasValue ? this.val : otherValue
+  }
+
+  orNull(): T | null {
+    return this.orSome(null as T) as T | null
+  }
+
+  orUndefined(): T | undefined {
+    return this.orSome(undefined as T) as T | undefined
   }
 
   isNone(): boolean {
