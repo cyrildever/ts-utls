@@ -73,9 +73,9 @@ describe('euclideanDivision', () => {
     remainder.should.equal(1)
   })
   it('should throw an error when dividing by zero', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-    expect(() => euclideanDivision(23, 0)).to.throw('division by zero') // eslint-disable-line @typescript-eslint/no-unsafe-call
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+    expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
   })
 })
 describe('flatten', () => {
@@ -267,9 +267,9 @@ describe('stringBytes2Buffer', () => {
     found.should.eqls(expected)
   })
   it('should throw an error when the string is not an octet', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-    expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes') // eslint-disable-line @typescript-eslint/no-unsafe-call
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+    expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes')
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
   })
 })
 describe('xor', () => {
@@ -281,9 +281,9 @@ describe('xor', () => {
     found.should.equal(expected)
   })
   it('should throw an error when strings are not of the same length', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-    expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size') // eslint-disable-line @typescript-eslint/no-unsafe-call
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+    expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size')
+    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
   })
 })
 describe('Hex functions', () => {
@@ -430,15 +430,10 @@ describe('List', () => {
       listMaybe.size().should.equal(3)
       const secondList = listMaybe.flattenMaybe<string>()
       secondList.should.eqls(list)
+      secondList.equals(list).should.be.true
 
       const secondArray = secondList.toArray()
       secondArray.should.eqls(initialArray)
-
-      let receiveEffect = ''
-      secondList.forEach((str: string) => {
-        receiveEffect += str + '.'
-      })
-      receiveEffect.should.equal('a.b.c.')
     })
   })
   describe('contains', () => {
@@ -451,8 +446,29 @@ describe('List', () => {
   describe('filter', () => {
     it('should return the appropriately filtered list', () => {
       const list = List.fromArray(['a', 'b', 'c'])
-      const filteredList = list.filter(a => a !== 'a')
+      const filteredList = list.filter(_ => _ !== 'a')
       filteredList.toArray().should.eqls(['b', 'c'])
+    })
+  })
+  describe('forEach', () => {
+    it('should tell if an item belongs to a list', () => {
+      const list = List.fromArray(['a', 'b', 'c'])
+      let receiveEffect = ''
+      list.forEach((str: string) => {
+        receiveEffect += str + '.'
+      })
+      receiveEffect.should.equal('a.b.c.')
+    })
+  })
+  describe('find', () => {
+    it('should find an existing element', () => {
+      const list = List.fromArray(['a', 'b', 'c'])
+      const maybeA = list.find(_ => _ === 'a')
+      maybeA.isSome().should.be.true
+      maybeA.some().should.equal('a')
+
+      const noneZ = list.find(_ => _ === 'zzz')
+      noneZ.isNone().should.be.true
     })
   })
 })

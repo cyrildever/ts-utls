@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import { areEqual, falseFunction, getArgs, idFunction, noop } from '.'
 import { Maybe, None, Some } from '..'
 
 export interface Either<E, T> {
@@ -52,6 +53,13 @@ export interface Either<E, T> {
   toPromise(): Promise<T>
 }
 
+/**
+ * Implement an `Either<Left, Right>` instance
+ * 
+ * @tparam `<E, T>` The type parameters with `E` as left and `T` as right types
+ * @param {E | T} val The value
+ * @param {boolean} isRightValue Set to `true` when the value is a right value of type `T`
+ */
 class EitherImpl<E, T> implements Either<E, T> {
   private isRightValue: boolean
   private value: E | T
@@ -182,6 +190,7 @@ class EitherImpl<E, T> implements Either<E, T> {
 const apply2 = <E, T>(a1: Either<E, T>, a2: Either<E, T>, f: (a: Either<E, T>, b: Either<E, T>) => Either<E, T>): Either<E, T> =>
   a2.ap(a1.map(curry(f, []))) // eslint-disable-line @typescript-eslint/no-unsafe-argument
 
+
 const curry = (fn: any, args: Array<any>) => {
   return function () {
     const args1 = args.concat(getArgs(arguments)) // eslint-disable-line prefer-rest-params
@@ -193,42 +202,9 @@ const curry = (fn: any, args: Array<any>) => {
   }
 }
 
-const equals = <E, T>(a: E | T): (b: E | T) => boolean => {
-  return function (b: E | T): boolean {
-    return areEqual(a, b)
-  }
-}
-
-const areEqual = (a: any, b: any): boolean => {
-  if (a === b || a !== a && b !== b) {
-    return true // eslint-disable-line no-self-compare
-  }
-  if (!a || !b) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
-    return false
-  }
-  /* eslint-disable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
-  if (isFunction(a.equals) && isFunction(b.equals)) {
-    return a.equals(b)
-  }
-  /* eslint-enable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
-  return false
-}
-
-const falseFunction = (): boolean => {
-  return false
-}
-
-const getArgs = (args: IArguments): Array<any> =>
-  Array.prototype.slice.call(args)
-
-
-const idFunction = (value: any): any =>
-  value
-
-const isFunction = (f: any): boolean =>
-  Boolean(f && f.constructor && f.call && f.apply) // eslint-disable-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
-
-const noop = (): void => { } // eslint-disable-line @typescript-eslint/no-empty-function
+const equals = <E, T>(a: E | T): (b: E | T) => boolean =>
+  (b: E | T): boolean =>
+    areEqual(a, b)
 
 export const Either = <E, T>(val: T, isRightValue: boolean): Either<E, T> =>
   new EitherImpl<E, T>(val, isRightValue)

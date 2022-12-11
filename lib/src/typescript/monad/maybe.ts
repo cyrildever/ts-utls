@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import { getArgs, idFunction, noop } from '.'
 import { List, Nil } from '..'
 
 export interface Maybe<T> {
@@ -49,6 +50,13 @@ export interface Maybe<T> {
   toList(): List<T>
 }
 
+/**
+ * Implement a `Maybe` instance
+ * 
+ * @tparam `<T>` The type parameter
+ * @param {boolean} isValue Set to `true` is passing an actual value of type `T`
+ * @param {T} val The value
+ */
 class MaybeImpl<T> implements Maybe<T> {
   private hasValue: boolean
   private val: T
@@ -177,16 +185,8 @@ const curry = (fn: any, args: Array<any>) => {
   }
 }
 
-const getArgs = (args: IArguments): Array<any> =>
-  Array.prototype.slice.call(args)
-
-const idFunction = (value: any): any =>
-  value
-
 const isNothing = (val: any): boolean =>
   val === null || val === undefined
-
-const noop = (): void => { } // eslint-disable-line @typescript-eslint/no-empty-function
 
 export const Some = <T>(val: T): Maybe<T> =>
   new MaybeImpl(true, val)

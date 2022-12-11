@@ -46,13 +46,13 @@ This library contains the following functions:
   * `toMySQLDateOrEmpty`: transform any date string to a MySQL-compatible date for SQL statement.
 
 It also contains an extremely simplified version of `Either`, `List` and `Maybe` monads. \
-These latter implementations are heavily inspired by the [`monet`](https://www.npmjs.com/package/monet) library which I had to decouple due to incompatibilities with TypeScript versions higher than `4.7`, hence the creation of these monads. \
-They probably should be challenged yet.
+These latter implementations are heavily inspired by the [`monet`](https://www.npmjs.com/package/monet) library which I had to decouple in my work due to incompatibilities with TypeScript versions higher than `4.7`, hence the creation of these monads. \
+However, they probably should still be challenged.
 
 eg.
 ```typescript
 import {
-  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, euclideanDivision, flatten, fromHex, groupBy, hashCode, int2Buffer, Maybe, None, range, reverse, shuffle, sleep, Some, splitCamelCaseWords, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
+  buffer2BytesString, capitalize, chunk, ConvertJSON, currentTimestampMillis, Either, euclideanDivision, flatten, fromHex, groupBy, hashCode, int2Buffer, List, Maybe, None, range, reverse, shuffle, sleep, Some, splitCamelCaseWords, splitBuffer, stringBytes2Buffer, Right, toHex, toMySQLDateOrEmpty, xor
 } from 'ts-utls'
 
 // For arrays
@@ -159,7 +159,12 @@ console.assert(rightString.equals(eitherString))
 
 // List
 
-
+const listString = List.fromArray(['a', 'b', 'c'])
+console.assert(!listString.isNil)
+console.assert(listString.head() === 'a')
+console.assert(listString.contains('b'))
+const filteredList = listString.filter(_ => _ !== 'a')
+console.assert(filteredList.toArray().equals(['b', 'c']))
 
 // Maybe
 

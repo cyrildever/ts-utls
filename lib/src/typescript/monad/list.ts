@@ -22,7 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { Maybe } from '..'
+import { areEqual, equals, idFunction, swap } from '.'
+import { Maybe, None, Some } from '..'
 
 export interface List<T> {
   /* Monad implementation */
@@ -30,12 +31,15 @@ export interface List<T> {
   flatMap<V>(fn: (val: T) => List<V>): List<V>
   chain<V>(fn: (val: T) => List<V>): List<V>
   map<V>(fn: (val: T) => V): List<V>
+  join<V>(): List<V> // if T is List<V>
 
   /* List specifics */
   append(list: List<T>): List<T>
   cons(a: T): List<T>
   contains(val: T): boolean
+  equals(other: List<T>): boolean
   filter(fn: (val: T) => boolean): List<T>
+  find(fn: (val: T) => boolean): Maybe<T>
   flatten<V>(): List<V>
   flattenMaybe<V>(): T extends Maybe<V> ? List<V> : never
   forEach(fn: (val: T) => void): void
@@ -45,13 +49,22 @@ export interface List<T> {
   tail(): List<T>
   toArray(): Array<T>
 
-  /* Other needed methods */
+  /* Other needed methods and values */
   foldLeft(initialValue: List<T>): (fn: any) => List<T>
   foldRight(initialValue: List<T>): (fn: any) => List<T>
+  isNil: boolean
 }
 
+/**
+ * Implement a `List` instance
+ *
+ * @tparam `<T>` The type parameter
+ * @param {T} args0 The first argument may be a `T` object [optional]
+ * @param {List<T>} args1 The second argument may be a list of `T` should there be a first argument [optional]
+ */
 class ListImpl<T> implements List<T> {
-  private isNil: boolean
+  public isNil: boolean
+
   private head_: T | undefined
   private size_: number
   private tail_!: List<T>
@@ -69,6 +82,7 @@ class ListImpl<T> implements List<T> {
       this.tail_ = tail !== undefined && tail !== null ? tail : Nil()
       this.size_ = this.tail_?.size() + 1
     }
+    /* eslint-enable prefer-rest-params,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access */
   }
 
   /* Monad implementation */
@@ -83,6 +97,10 @@ class ListImpl<T> implements List<T> {
 
   flatMap<V>(fn: (val: T) => List<V>): List<V> {
     return this.map(fn).flatten()
+  }
+
+  join<V>(): List<V> {
+    return this.flatMap(idFunction)
   }
 
   map<V>(fn: (val: T) => V): List<V> {
@@ -103,8 +121,16 @@ class ListImpl<T> implements List<T> {
     return listContains(this, val)
   }
 
+  equals(other: List<T>): boolean {
+    return listEquals(this, other)
+  }
+
   filter(fn: (val: T) => boolean): List<T> {
     return listFilter(this, fn)
+  }
+
+  find(fn: (val: T) => boolean): Maybe<T> {
+    return listFind(this, fn)
   }
 
   flatten<V>(): List<V> {
@@ -124,7 +150,7 @@ class ListImpl<T> implements List<T> {
   }
 
   reverse(): List<T> {
-    return listReverse(this) as List<T>
+    return listReverse(this)
   }
 
   size(): number {
@@ -142,7 +168,7 @@ class ListImpl<T> implements List<T> {
     }, [], this) as Array<T>
   }
 
-  /* Other merthods needed */
+  /* Other needed methods */
 
   foldLeft(initialValue: List<T>): (fn: any) => List<T> {
     const self = this // eslint-disable-line @typescript-eslint/no-this-alias
@@ -161,7 +187,7 @@ class ListImpl<T> implements List<T> {
 
 const append = <T>(self: List<T>, other: List<T>): List<T> => {
   const a = (listA: List<T>, listB: List<T>): List<T> => {
-    return listA.size() === 0
+    return listA.isNil
       ? listB
       : a(listA.tail(), listB).cons(listA.head() as T)
   }
@@ -170,35 +196,35 @@ const append = <T>(self: List<T>, other: List<T>): List<T> => {
 
 const foldLeft = (fn: any, acc: any, list: any): any => {
   const fL = (innerAcc: any, innerList: any): any => {
-    /* eslint-disable @typescript-eslint/no-unsafe-call */
-    return innerList.size() === 0
+    /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access */
+    return innerList.isNil
       ? innerAcc
       : fL(fn(innerAcc, innerList.head()), innerList.tail())
-    /* eslint-enable @typescript-eslint/no-unsafe-call */
+    /* eslint-enable @typescript-eslint/no-unsafe-call,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access */
   }
   return fL(acc, list)
 }
 
 const foldRight = (fn: any, list: any, acc: any): any => {
   const fR = (innerList: any, innerAcc: any): any => {
-    /* eslint-disable @typescript-eslint/no-unsafe-call */
+    /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
     if (innerList !== undefined && innerList.size() > 0) {
       innerAcc = fn(List.of(innerList.head()), innerAcc)
     }
-    return innerList.size() === 0
+    return innerList.isNil
       ? innerAcc
       : fR(innerList.tail(), innerAcc)
-    /* eslint-enable @typescript-eslint/no-unsafe-call */
+    /* eslint-enable @typescript-eslint/no-unsafe-call,@typescript-eslint/strict-boolean-expressions,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
   }
   return fR(list, acc)
 }
 
 const listContains = <T>(list: List<T>, val: T): boolean => {
-  if (list.size() === 0) {
+  if (list.isNil) {
     return false
   }
   const lC = (l: List<T>, v: T): boolean => {
-    if (l === undefined || l.size() === 0) {
+    if (l === undefined || l.isNil) {
       return false
     }
     const h = l.head()
@@ -209,10 +235,37 @@ const listContains = <T>(list: List<T>, val: T): boolean => {
   return lC(list, val)
 }
 
+const listEquals = <T>(listA: List<T>, listB: List<T>): boolean => {
+  if (listA.size() !== listB.size()) {
+    return false
+  }
+  while (!listA.isNil && !listB.isNil) { // eslint-disable-line no-loops/no-loops
+    if (!equals(listA.head())(listB.head())) {
+      return false
+    }
+    listA = listA.tail()
+    listB = listB.tail()
+  }
+  return listA.isNil && listB.isNil
+}
+
 const listFilter = <T>(list: List<T>, fn: (val: T) => boolean): List<T> =>
   list.foldRight(Nil<T>())((a: List<T>, acc: List<T>) =>
     fn(a.head() as T) ? cons(a.head(), acc) : acc
   ).reverse()
+
+const listFind = <T>(list: List<T>, fn: (val: T) => boolean): Maybe<T> => {
+  const lF = (l: List<T>): Maybe<T> => {
+    if (l.isNil) {
+      return None<T>()
+    }
+    const h = l.head() as T
+    return fn(h)
+      ? Some(h)
+      : lF(l.tail())
+  }
+  return lF(list)
+}
 
 const listForEach = <T>(effectFn: (val: T) => void, list: List<T>): void => {
   if (list.size() > 0) {
@@ -222,8 +275,8 @@ const listForEach = <T>(effectFn: (val: T) => void, list: List<T>): void => {
 }
 
 const listMap = (fn: any, list: any): any => {
-  /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument */
-  if (list.size() === 0) {
+  /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
+  if (list.isNil) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
     return list
   }
   let newList = fn(list.head())
@@ -234,36 +287,14 @@ const listMap = (fn: any, list: any): any => {
     newList = append(newList, fn(head))
   }
   return newList.reverse()
-  /* eslint-enable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument */
+  /* eslint-enable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 }
 
 const cons = <T>(head: T, tail: List<T>): List<T> =>
   tail.cons(head)
 
-const listReverse = (list: any): any =>
+const listReverse = <T>(list: List<T>): List<T> =>
   list.foldLeft(Nil())(swap(cons)) // eslint-disable-line @typescript-eslint/no-unsafe-call
-
-const swap = (f: any): any =>
-  (a: any, b: any) =>
-    f(b, a) // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-
-const areEqual = (a: any, b: any): boolean => {
-  if (a === b || a !== a && b !== b) {
-    return true // eslint-disable-line no-self-compare
-  }
-  if (!a || !b) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
-    return false
-  }
-  /* eslint-disable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
-  if (isFunction(a.equals) && isFunction(b.equals)) {
-    return a.equals(b)
-  }
-  /* eslint-enable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
-  return false
-}
-
-const isFunction = (f: any): boolean =>
-  Boolean(f && f.constructor && f.call && f.apply) // eslint-disable-line @typescript-eslint/strict-boolean-expressions, @typescript-eslint/no-unsafe-member-access
 
 const fromArray = <T>(arr: Array<T>): List<T> =>
   arr.reduceRight((acc, next) => acc.cons(next), Nil<T>())
@@ -276,4 +307,5 @@ export const List = {
   of
 }
 
-export const Nil = <T>(): List<T> => new ListImpl<T>()
+export const Nil = <T>(): List<T> =>
+  new ListImpl<T>()
