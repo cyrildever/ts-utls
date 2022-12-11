@@ -41,6 +41,7 @@ export interface Either<E, T> {
   equals(other: Either<E, T>): boolean
   fold<Z>(leftFn: (err: E) => Z, rightFn: (val: T) => Z): Z
   leftMap<F>(fn: (leftVal: E) => F): Either<F, T>
+  swap(): Either<T, E>
 
   isLeft(): boolean
   isRight(): boolean
@@ -143,6 +144,10 @@ class EitherImpl<E, T> implements Either<E, T> {
 
   leftMap<F>(leftMapFn: (leftVal: E) => F): Either<F, T> {
     return this.isLeft() ? Left(leftMapFn(this.value as E)) : Either<F, T>(null as T, false)
+  }
+
+  swap(): Either<T, E> {
+    return this.isRight() ? Left<T, E>(this.value as T) : Right<T, E>(this.value as E)
   }
 
   isLeft(): boolean {

@@ -438,6 +438,15 @@ describe('Either', () => {
       maybeRight.some().should.equal('efgh')
     })
   })
+  describe('swap', () => {
+    it('should swap values', () => {
+      const rightString = Right('efgh')
+      const leftString = rightString.swap()
+      leftString.isLeft().should.be.true
+      leftString.left().should.equals('efgh')
+      leftString.swap().equals(rightString).should.be.true
+    })
+  })
 })
 describe('List', () => {
   describe('fromArray', () => {
