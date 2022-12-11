@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 import { getArgs, idFunction, noop } from '.'
-import { List, Nil } from '..'
+import { Either, Left, List, Nil, Right } from '..'
 
 export interface Maybe<T> {
   /* Monad implementation */
@@ -47,6 +47,9 @@ export interface Maybe<T> {
   isNone(): boolean
   isSome(): boolean
   some(): T
+
+  toArray(): Array<T>
+  toEither<E>(left?: E): Either<E, T>
   toList(): List<T>
 }
 
@@ -163,6 +166,17 @@ class MaybeImpl<T> implements Maybe<T> {
     } else {
       throw new Error('Cannot call .some() on a None.')
     }
+  }
+
+  toArray(): Array<T> {
+    const maybeArr = this.map((val: T) => [val])
+    return maybeArr.isSome()
+      ? maybeArr.some()
+      : []
+  }
+
+  toEither<E>(failVal?: E): Either<E, T> {
+    return this.isSome() ? Right(this.val) : Left(failVal as E)
   }
 
   toList(): List<T> {

@@ -172,6 +172,8 @@ const maybeString: Maybe<string> = Some('string')
 console.assert(maybeString.isSome() && !maybeString.isNone() && maybeString.some() === 'string' && maybeString.getOrElse('nothing') === 'string')
 const nothing = None<string>()
 console.assert(nothing.isNone() && !nothing.isSome(), nothing.getOrElse('something') === 'something')
+const leftString = nothing.toEither('string')
+console.assert(leftString.isLeft() && leftString.left() === 'string')
 ```
 
 Please let me know if you have more optimized implementations of any of my stuff.

@@ -352,6 +352,27 @@ describe('Maybe', () => {
       someBytes.getOrElse(Buffer.from([123])).should.eqls(ref)
     })
   })
+  describe('toArray', () => {
+    it('should return an array', () => {
+      const maybeString = Maybe.fromNull('string')
+      const arrayString = maybeString.toArray()
+      arrayString.should.eqls(['string'])
+    })
+  })
+  describe('toEither', () => {
+    it('should build the appropriate Either instance', () => {
+      const maybeString = Maybe.fromNull('string')
+      const rightString = maybeString.toEither()
+      rightString.isRight().should.be.true
+
+      const maybeNone = Maybe.fromUndefined(undefined)
+      maybeNone.isNone().should.be.true
+      const leftString = maybeNone.toEither('string')
+      leftString.isLeft().should.be.true
+      leftString.isRight().should.be.false
+      leftString.left().should.equal('string')
+    })
+  })
 })
 describe('Either', () => {
   describe('Left', () => {
