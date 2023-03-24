@@ -6,8 +6,8 @@
 ![Github issues](https://img.shields.io/github/issues/cyrildever/ts-utls)
 ![NPM](https://img.shields.io/npm/l/ts-utls)
 
-ts-utls is a small TypeScript library where I put all useful stuff I regularly need in my projects. \
-Feel free to use at your discretion with the apppropriate license mentions.
+`ts-utls` is a small TypeScript library where I put all the useful stuff I regularly need in my projects. \
+Feel free to use it at your discretion with the apppropriate credit mentions.
 
 _NB: I've developed the same kind of libraries for both [Go](https://github.com/cyrildever/go-utls) and [Python](https://pypi.org/project/py-utls/)._
 
@@ -58,7 +58,7 @@ import {
 // For arrays
 
 const arr = [1, 2, 3, 4, 5]
-const chunked = chunk(arr)
+const chunked = chunk(arr, 2)
 // [[1, 2], [3, 4], [5]]
 console.log(chunked)
 
@@ -189,7 +189,7 @@ npm i -g live-server
 
 ### License
 
-This library is distributed under an MIT license.
+This library is distributed under a MIT license. \
 See the [LICENSE](LICENSE) file.
 
 
