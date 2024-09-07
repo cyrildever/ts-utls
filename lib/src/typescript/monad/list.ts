@@ -70,7 +70,7 @@ class ListImpl<T> implements List<T> {
   private tail_!: List<T>
 
   constructor(...args: any) {
-    /* eslint-disable prefer-rest-params,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access */
     const head = args[0]
     const tail = args[1]
     if (args.length === 0) {
@@ -82,7 +82,7 @@ class ListImpl<T> implements List<T> {
       this.tail_ = tail !== undefined && tail !== null ? tail : Nil()
       this.size_ = this.tail_?.size() + 1
     }
-    /* eslint-enable prefer-rest-params,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access */
+    /* eslint-enable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access */
   }
 
   /* Monad implementation */
@@ -294,7 +294,7 @@ const cons = <T>(head: T, tail: List<T>): List<T> =>
   tail.cons(head)
 
 const listReverse = <T>(list: List<T>): List<T> =>
-  list.foldLeft(Nil())(swap(cons)) // eslint-disable-line @typescript-eslint/no-unsafe-call
+  list.foldLeft(Nil())(swap(cons))  
 
 const fromArray = <T>(arr: Array<T>): List<T> =>
   arr.reduceRight((acc, next) => acc.cons(next), Nil<T>())

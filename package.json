@@ -1,15 +1,14 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.5.25",
+  "version": "1.5.26",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
-    "compile": "eslint lib --ext .ts && tsc ",
-    "fix": "eslint lib --ext .ts --fix",
-    "test": "tsc && browserify $(find ./dist/test/typescript -type f -name \"*.js\") -o dist/test/index.js && live-server --port=10001 --mount=/:test/typescript",
-    "fix-test": "eslint test --ext .ts --fix",
-    "test-on-windows": "tsc && browserify dist/test/typescript/index.spec.js -o dist/test/index.js && live-server --port=10001 --mount=/:test/typescript"
+    "compile": "eslint lib/**/*.ts && tsc",
+    "fix": "eslint lib/**/*.ts --fix",
+    "test": "tsc && browserify $(find ./dist/test/typescript -type f -name \"*.js\") -o dist/test/index.js --node && live-server --port=10005 --mount=/:test/typescript",
+    "fix-test": "eslint test/**/*.ts --fix"
   },
   "repository": {
     "type": "git",
@@ -40,17 +39,20 @@
   },
   "homepage": "https://github.com/cyrildever/ts-utls#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.16",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.10.0",
+    "@types/chai": "^4.3.19",
     "@types/mocha": "^10.0.7",
-    "@types/node": "^20.14.10",
-    "@typescript-eslint/eslint-plugin": "^7.15.0",
-    "@typescript-eslint/parser": "^7.15.0",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
     "browserify": "^17.0.0",
-    "chai": "^4.4.0",
-    "chai-as-promised": "^7.1.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-no-loops": "~0.3.0",
-    "mocha": "^10.6.0",
-    "typescript": "^5.5.3"
+    "buffer": "^6.0.3",
+    "chai": "^4.5.0",
+    "config": "^3.3.12",
+    "eslint": "^9.10.0",
+    "eslint-plugin-no-loops": "~0.4.0",
+    "mocha": "^10.7.3",
+    "typescript": "^5.5.4"
   }
 }

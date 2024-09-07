@@ -6,16 +6,16 @@
 
 export const areEqual = (a: any, b: any): boolean => {
   if (a === b || a !== a && b !== b) {
-    return true // eslint-disable-line no-self-compare
+    return true  
   }
   if (!a || !b) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
     return false
   }
-  /* eslint-disable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
+  /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
   if (isFunction(a.equals) && isFunction(b.equals)) {
     return a.equals(b)
   }
-  /* eslint-enable @typescript-eslint/unbound-method,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
+  /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
   return false
 }
 

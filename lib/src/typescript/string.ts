@@ -40,7 +40,7 @@ export const capitalize = (s: string): string =>
 export const fromHex = (s: string): Buffer => {
   try {
     return Buffer.from(s, 'hex')
-  } catch (e) {
+  } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
     return Buffer.alloc(0)
   }
 }

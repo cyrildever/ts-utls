@@ -51,7 +51,7 @@ export const toMySQLDateOrEmpty = (date: string, withTime = false): string => {
     const [str, offset] = date.endsWith('Z') ? [date, 0] : [date, new Date(date).getTimezoneOffset() * 60 * 1000]
     const d = offset === 0 ? new Date(str) : new Date(new Date(str).getTime() - offset)
     return d.toJSON().slice(0, withTime ? 19 : 10).replace('T', ' ')
-  } catch (_) {
+  } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
     return ''
   }
 }

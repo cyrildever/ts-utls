@@ -3,8 +3,14 @@ import {
   int2Buffer, fromHex, hashCode, Left, List, Maybe, None, NonEmptyList, Right, shuffle, sleep, Some, splitCamelCaseWords,
   range, reverse, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
+import { expect, should } from 'chai'
 
-declare function expect(val: any, message?: string): any
+if (typeof window !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-require-imports
+  window.Buffer = require('buffer/').Buffer
+}
+
+should()
 
 describe('buffer2BytesString', () => {
   it('should transform a byte array in its string representation of bits', () => {
@@ -73,9 +79,9 @@ describe('euclideanDivision', () => {
     remainder.should.equal(1)
   })
   it('should throw an error when dividing by zero', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
     expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
   })
 })
 describe('flatten', () => {
@@ -90,11 +96,11 @@ describe('flatten', () => {
     const found1 = flatten<number>(arrs)
     const found2 = flatten(arrs)
     found1.should.eqls(found2)
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unused-expressions */
     expect(found2 instanceof Array).to.be.true
     expect(typeof found2[0] === 'number').to.be.true
     expect(typeof found1 === typeof found2).to.be.true
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
+    /* eslint-enable @typescript-eslint/no-unused-expressions */
   })
 })
 describe('groupBy', () => {
@@ -165,7 +171,7 @@ describe('range', () => {
     found.should.eqls(expected)
 
     found = range(1, 0)
-    found.should.be.empty
+    return found.should.be.empty
   })
   it('should adapt the list to the step size', () => {
     const expected1 = [0, 1, 2, 3, 4]
@@ -223,7 +229,7 @@ describe('splitBuffer', () => {
     found3[1].should.eqls(delimiter2)
     found3[2].should.eqls(Buffer.from([2, 3]))
     found3[3].should.eqls(delimiter2)
-    found3[4].should.be.empty
+    return found3[4].should.be.empty
   })
 })
 describe('splitCamelCaseWords', () => {
@@ -256,7 +262,7 @@ describe('toMySQLDateOrEmpty', () => {
     found.should.equal(expected)
 
     found = toMySQLDateOrEmpty('not-a-date')
-    found.should.be.empty
+    return found.should.be.empty
   })
 })
 describe('stringBytes2Buffer', () => {
@@ -267,9 +273,9 @@ describe('stringBytes2Buffer', () => {
     found.should.eqls(expected)
   })
   it('should throw an error when the string is not an octet', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
     expect(() => stringBytes2Buffer('01')).to.throw('not the string representation of bytes')
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
   })
 })
 describe('xor', () => {
@@ -281,9 +287,9 @@ describe('xor', () => {
     found.should.equal(expected)
   })
   it('should throw an error when strings are not of the same length', () => {
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
     expect(() => xor('short', 'longer string')).to.throw('strings must be of the same size')
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+
   })
 })
 describe('Hex functions', () => {
@@ -325,24 +331,26 @@ describe('Maybe', () => {
   describe('fromNull', () => {
     it('should return the appropriate Maybe', () => {
       const maybeString = Maybe.fromNull('string')
-      maybeString.isSome().should.be.true
+      maybeString.isSome().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       maybeString.some().should.equal('string')
 
       const maybeNull = Maybe.fromNull(undefined)
-      maybeNull.isNone().should.be.true
+      maybeNull.isNone().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
     })
   })
   describe('None', () => {
     it('should be empty', () => {
       const none = None<string>()
+      /* eslint-disable @typescript-eslint/no-unused-expressions */
       none.isNone().should.be.true
       none.isSome().should.be.false
       none.getOrElse('test').should.equal('test')
+      /* eslint-enable @typescript-eslint/no-unused-expressions */
     })
   })
   describe('orUndefined', () => {
     it('should return an undefined value when None', () => {
-      /* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+      /* eslint-disable @typescript-eslint/no-unused-expressions */
       const none = None<string>()
       const undefinedValue = none.orUndefined()
       expect(undefinedValue).to.be.undefined
@@ -351,15 +359,15 @@ describe('Maybe', () => {
       expect(someString.orUndefined()).to.not.be.undefined
 
       expect(none.orNull()).to.be.null
-      /* eslint-enable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call */
+      /* eslint-enable @typescript-eslint/no-unused-expressions */
     })
   })
   describe('Some', () => {
     it('should return the right value and type', () => {
       const ref = Buffer.from('test')
       const someBytes: Maybe<Buffer> = Some(ref)
-      someBytes.isSome().should.be.true
-      someBytes.isNone().should.be.false
+      someBytes.isSome().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
+      someBytes.isNone().should.be.false // eslint-disable-line @typescript-eslint/no-unused-expressions
       const bytes = someBytes.some()
       bytes.should.eqls(ref)
       bytes.toString().should.equal('test')
@@ -375,6 +383,7 @@ describe('Maybe', () => {
   })
   describe('toEither', () => {
     it('should build the appropriate Either instance', () => {
+      /* eslint-disable @typescript-eslint/no-unused-expressions */
       const maybeString = Maybe.fromNull('string')
       const rightString = maybeString.toEither()
       rightString.isRight().should.be.true
@@ -385,6 +394,7 @@ describe('Maybe', () => {
       leftString.isLeft().should.be.true
       leftString.isRight().should.be.false
       leftString.left().should.equal('string')
+      /* eslint-enable @typescript-eslint/no-unused-expressions */
     })
   })
 })
@@ -392,14 +402,14 @@ describe('Either', () => {
   describe('Left', () => {
     const leftString = Left('abcd')
     it('should return the left value', () => {
-      leftString.isLeft().should.be.true
+      leftString.isLeft().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       leftString.left().should.equal('abcd')
     })
     it('should be transformed by a map', () => {
       const leftLength = leftString.map(function (val: any): number {
         return val.length // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
       })
-      leftLength.isLeft().should.be.true
+      leftLength.isLeft().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       leftLength.left().should.equal(4)
     })
     it('should only run the left side of fold', () => {
@@ -418,24 +428,24 @@ describe('Either', () => {
     })
     it('should return None when calling toMaybe', () => {
       const maybeLeft = leftString.toMaybe()
-      maybeLeft.isNone().should.be.true
+      return maybeLeft.isNone().should.be.true
     })
   })
   describe('Right', () => {
     const rightString = Right('efgh')
     it('should return the right value', () => {
-      rightString.isRight().should.be.true
+      rightString.isRight().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       rightString.right().should.equal('efgh')
 
       const otherRight = Either('ijkl', true)
       rightString.takeRight(otherRight).should.eqls(otherRight)
-      rightString.takeRight(otherRight).equals(otherRight).should.be.true
+      rightString.takeRight(otherRight).equals(otherRight).should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
     })
     it('should be transformed by a map', () => {
       const rightLength = rightString.map(function (val: any): number {
         return val.length // eslint-disable-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
       })
-      rightLength.isRight().should.be.true
+      rightLength.isRight().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       rightLength.right().should.equal(4)
     })
     it('should only run the right side of fold', () => {
@@ -448,7 +458,7 @@ describe('Either', () => {
     })
     it('should return the right as Maybe when calling toMaybe', () => {
       const maybeRight = rightString.toMaybe()
-      maybeRight.isSome().should.be.true
+      maybeRight.isSome().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       maybeRight.some().should.equal('efgh')
     })
   })
@@ -456,9 +466,9 @@ describe('Either', () => {
     it('should swap values', () => {
       const rightString = Right('efgh')
       const leftString = rightString.swap()
-      leftString.isLeft().should.be.true
+      leftString.isLeft().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       leftString.left().should.equals('efgh')
-      leftString.swap().equals(rightString).should.be.true
+      return leftString.swap().equals(rightString).should.be.true
     })
   })
 })
@@ -474,7 +484,7 @@ describe('List', () => {
       listMaybe.size().should.equal(3)
       const secondList = listMaybe.flattenMaybe<string>()
       secondList.should.eqls(list)
-      secondList.equals(list).should.be.true
+      secondList.equals(list).should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
 
       const secondArray = secondList.toArray()
       secondArray.should.eqls(initialArray)
@@ -482,9 +492,11 @@ describe('List', () => {
   })
   describe('contains', () => {
     it('should tell if an item belongs to a list', () => {
+      /* eslint-disable @typescript-eslint/no-unused-expressions */
       const list = List.fromArray(['a', 'b', 'c'])
       list.contains('a').should.be.true
       list.contains('zzz').should.be.false
+      /* eslint-enable @typescript-eslint/no-unused-expressions */
     })
   })
   describe('filter', () => {
@@ -508,11 +520,11 @@ describe('List', () => {
     it('should find an existing element', () => {
       const list = List.fromArray(['a', 'b', 'c'])
       const maybeA = list.find(_ => _ === 'a')
-      maybeA.isSome().should.be.true
+      maybeA.isSome().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       maybeA.some().should.equal('a')
 
       const noneZ = list.find(_ => _ === 'zzz')
-      noneZ.isNone().should.be.true
+      return noneZ.isNone().should.be.true
     })
   })
 })
@@ -522,14 +534,14 @@ describe('NonEmptyList', () => {
       const initialArray = ['a', 'b', 'c']
       const list = List.fromArray(initialArray)
       const nonEmptyList = NonEmptyList.fromList(list)
-      nonEmptyList.isSome().should.be.true
+      nonEmptyList.isSome().should.be.true // eslint-disable-line @typescript-eslint/no-unused-expressions
       nonEmptyList.some().toArray().should.eqls(initialArray)
     })
   })
   describe('fromArray', () => {
     it('should return the appropriate list', () => {
       const emptyList = NonEmptyList.fromArray([])
-      emptyList.isNone().should.be.true
+      return emptyList.isNone().should.be.true
     })
   })
 })

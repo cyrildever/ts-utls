@@ -85,7 +85,7 @@ export const splitBuffer = (buf: Buffer, delimiter: Buffer, returnDelim = false)
  * @throws not the string representation of bytes
  */
 export const stringBytes2Buffer = (bits: string): Buffer => {
-  if (bits.length % 8 !== 0 || !bits.match(/^[01]+$/g)) { // eslint-disable-line @typescript-eslint/strict-boolean-expressions
+  if (bits.length % 8 !== 0 || !bits.match(/^[01]+$/g)) {  
     throw new Error('not the string representation of bytes')
   }
   const buf = Buffer.alloc(bits.length / 8)

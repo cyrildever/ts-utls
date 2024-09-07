@@ -74,12 +74,12 @@ class EitherImpl<E, T> implements Either<E, T> {
 
   ap<V>(eitherWithFn: Either<E, (val: T) => V>): Either<E, V> {
     if (this.isRightValue) {
-      /* eslint-disable @typescript-eslint/no-this-alias,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access */
+      /* eslint-disable @typescript-eslint/no-this-alias */
       const self = this
       return eitherWithFn.map(function (fn) {
         return fn(self.value as T)
       })
-      /* eslint-enable @typescript-eslint/no-this-alias,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access */
+      /* eslint-enable @typescript-eslint/no-this-alias */
     } else {
       return Either<E, V>(this.value as V, false)
     }
@@ -184,12 +184,14 @@ class EitherImpl<E, T> implements Either<E, T> {
     return this.isRight() ? Some(this.value as T) : None<T>()
   }
 
+  /* eslint-disable @typescript-eslint/prefer-promise-reject-errors */
   toPromise(): Promise<T> {
     return this.cata(
       function (left) { return Promise.reject(left) },
       function (right) { return Promise.resolve(right) }
     )
   }
+  /* eslint-enable @typescript-eslint/prefer-promise-reject-errors */
 }
 
 const apply2 = <E, T>(a1: Either<E, T>, a2: Either<E, T>, f: (a: Either<E, T>, b: Either<E, T>) => Either<E, T>): Either<E, T> =>

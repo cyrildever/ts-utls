@@ -186,7 +186,7 @@ To run the tests, you would need to install [`live-server`](https://www.npmjs.co
 npm i -g live-server
 ```
 
-_NB: Tests use port `10001`, beware if any other process is running on that port as such a conflict may disable them._
+_NB: Tests use port `10005`, beware if any other process is running on that port as such a conflict may disable them._
 
 
 ### License

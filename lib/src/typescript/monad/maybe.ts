@@ -71,7 +71,7 @@ class MaybeImpl<T> implements Maybe<T> {
   constructor(isValue: boolean, val: T) {
     this.hasValue = isValue
     if (isValue && isNothing(val)) {
-      throw new Error('Can not create Some with illegal value: ' + val + '.') // eslint-disable-line @typescript-eslint/restrict-plus-operands
+      throw new Error('Can not create Some with illegal value: ' + val + '.')
     }
     this.val = val
   }
@@ -109,7 +109,7 @@ class MaybeImpl<T> implements Maybe<T> {
     try {
       const m = mapFn(this.val)
       return m !== undefined ? Some(m) : None<V>()
-    } catch (e) {
+    } catch (_) { // eslint-disable-line @typescript-eslint/no-unused-vars
       return None<V>()
     }
   }
