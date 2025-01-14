@@ -196,4 +196,4 @@ See the [LICENSE](LICENSE) file.
 
 
 <hr />
-&copy; 2020-2024 Cyril Dever. All rights reserved.
+&copy; 2020-2025 Cyril Dever. All rights reserved.
