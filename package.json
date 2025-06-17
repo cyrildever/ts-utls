@@ -1,7 +1,7 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.5.27",
+  "version": "1.5.28",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
@@ -39,20 +39,20 @@
   },
   "homepage": "https://github.com/cyrildever/ts-utls#readme",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
-    "@types/chai": "^4.3.19",
-    "@types/mocha": "^10.0.7",
-    "@types/node": "^22.10.6",
-    "@typescript-eslint/eslint-plugin": "^8.20.0",
-    "@typescript-eslint/parser": "^8.20.0",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.29.0",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
     "browserify": "^17.0.1",
     "buffer": "^6.0.3",
     "chai": "^4.5.0",
-    "config": "^3.3.12",
-    "eslint": "^9.18.0",
+    "config": "^4.0.0",
+    "eslint": "^9.29.0",
     "eslint-plugin-no-loops": "~0.4.0",
-    "mocha": "^10.7.3",
-    "typescript": "^5.7.3"
+    "mocha": "^10.8.2",
+    "typescript": "^5.8.3"
   }
 }
