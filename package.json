@@ -1,13 +1,14 @@
 {
   "name": "ts-utls",
   "description": "Utilities for TypeScript library",
-  "version": "1.5.31",
+  "version": "1.6.0",
   "main": "dist/lib/src/typescript/index.js",
   "types": "dist/lib/src/typescript/index.d.ts",
   "scripts": {
     "compile": "eslint lib/**/*.ts && tsc",
     "fix": "eslint lib/**/*.ts --fix",
-    "test": "tsc && browserify $(find ./dist/test/typescript -type f -name \"*.js\") -o dist/test/index.js --node && live-server --port=10005 --mount=/:test/typescript",
+    "test": "tsc && esbuild test/typescript/index.spec.ts --bundle --outfile=dist/test/index.js --platform=browser --format=iife && live-server --port=10005 --mount=/:test/typescript",
+    "test:ci": "tsc && esbuild test/typescript/index.spec.ts --bundle --outfile=dist/test/node.spec.cjs --platform=node --format=cjs && mocha dist/test/node.spec.cjs",
     "fix-test": "eslint test/**/*.ts --fix"
   },
   "repository": {
@@ -41,18 +42,18 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.39.2",
-    "@types/chai": "^4.3.20",
+    "@types/chai": "^5.2.3",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.9.3",
     "@typescript-eslint/eslint-plugin": "^8.61.0",
     "@typescript-eslint/parser": "^8.61.0",
-    "browserify": "^17.0.1",
     "buffer": "^6.0.3",
-    "chai": "^4.5.0",
+    "chai": "^6.2.2",
     "config": "^4.4.1",
+    "esbuild": "^0.28.0",
     "eslint": "^9.39.2",
     "eslint-plugin-no-loops": "~0.4.0",
-    "mocha": "^10.8.2",
-    "typescript": "^5.9.3"
+    "mocha": "^11.7.6",
+    "typescript": "^6.0.3"
   }
 }

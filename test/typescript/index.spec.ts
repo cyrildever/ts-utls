@@ -3,14 +3,16 @@ import {
   int2Buffer, fromHex, hashCode, Left, List, Maybe, None, NonEmptyList, Right, shuffle, sleep, Some, splitCamelCaseWords,
   range, reverse, splitBuffer, stringBytes2Buffer, toHex, toMySQLDateOrEmpty, xor
 } from '../../lib/src/typescript/index'
-import { expect, should } from 'chai'
+import { expect } from 'chai'
+// Side-effect import: registers the `.should` getter (runtime) and loads its
+// global type augmentation. Chai 6 ships no types, so the augmentation comes
+// from @types/chai's register-should.d.ts.
+import 'chai/register-should'
 
 if (typeof window !== 'undefined') {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-require-imports
   window.Buffer = require('buffer/').Buffer
 }
-
-should()
 
 describe('buffer2BytesString', () => {
   it('should transform a byte array in its string representation of bits', () => {
