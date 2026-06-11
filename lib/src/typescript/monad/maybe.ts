@@ -165,11 +165,11 @@ class MaybeImpl<T> implements Maybe<T> {
   }
 
   orNull(): T | null {
-    return this.orSome(null as T) as T | null
+    return this.orSome(null as T)
   }
 
   orUndefined(): T | undefined {
-    return this.orSome(undefined as T) as T | undefined
+    return this.orSome(undefined as T)
   }
 
   isNone(): boolean {
