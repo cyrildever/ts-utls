@@ -52,7 +52,7 @@ export const fromHex = (s: string): Buffer => {
  * @returns the hashCode
  */
 export const hashCode = (s: string): number =>
-  Array.from(s).reduce((h: number, c: string) => Math.imul(31, h) + c.charCodeAt(0) | 0, 0)
+  s.split('').reduce((h: number, c: string) => Math.imul(31, h) + c.charCodeAt(0) | 0, 0)
 
 /**
  * Reverse the order of the characters in the passed string

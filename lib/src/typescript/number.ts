@@ -34,7 +34,9 @@ export const euclideanDivision = (numerator: number, denominator: number): [numb
   if (denominator === 0) {
     throw new Error('division by zero')
   }
-  const quotient = Math.floor(numerator / denominator)
-  const remainder = numerator % denominator
+  const divisor = Math.abs(denominator)
+  const remainder = (numerator % divisor + divisor) % divisor
+  // `+ 0` turns -0 into 0, eg. for (1, -2)
+  const quotient = (numerator - remainder) / denominator + 0
   return [quotient, remainder]
 }

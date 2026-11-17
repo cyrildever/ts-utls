@@ -80,6 +80,13 @@ describe('euclideanDivision', () => {
     quotient.should.equal(7)
     remainder.should.equal(1)
   })
+  it('should keep a non-negative remainder with negative operands', () => {
+    euclideanDivision(-7, 2).should.eql([-4, 1])
+    euclideanDivision(7, -2).should.eql([-3, 1])
+    euclideanDivision(-7, -2).should.eql([4, 1])
+    euclideanDivision(-6, 3).should.eql([-2, 0])
+    euclideanDivision(1, -2).should.eql([0, 1])
+  })
   it('should throw an error when dividing by zero', () => {
 
     expect(() => euclideanDivision(23, 0)).to.throw('division by zero')
@@ -152,6 +159,10 @@ describe('hashCode', () => {
 
     const empty = hashCode('')
     empty.should.equal(0)
+  })
+  it('should match Java on surrogate pairs', () => {
+    hashCode('😀').should.equal(1772899)
+    hashCode('🚀').should.equal(1773027)
   })
 })
 describe('int2Buffer', () => {
